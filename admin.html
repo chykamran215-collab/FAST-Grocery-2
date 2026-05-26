@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FAST_Grocery Admin</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<style>
+body{
+background:#f3f4f6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="flex">
+
+<!-- Sidebar -->
+
+<div class="w-64 bg-green-700 min-h-screen text-white p-5">
+
+<h1 class="text-2xl font-bold mb-10">
+FAST_Grocery
+</h1>
+
+<ul class="space-y-4">
+
+<li class="bg-green-900 p-3 rounded">
+Dashboard
+</li>
+
+<li class="hover:bg-green-800 p-3 rounded cursor-pointer">
+Orders
+</li>
+
+<li class="hover:bg-green-800 p-3 rounded cursor-pointer">
+Products
+</li>
+
+<li class="hover:bg-green-800 p-3 rounded cursor-pointer">
+Offers
+</li>
+
+<li class="hover:bg-green-800 p-3 rounded cursor-pointer">
+Customers
+</li>
+
+</ul>
+
+</div>
+
+<!-- Main -->
+
+<div class="flex-1 p-6">
+
+<h2 class="text-3xl font-bold mb-6">
+Admin Dashboard
+</h2>
+
+<!-- Stats -->
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+<div class="bg-white p-5 rounded shadow">
+<h3 class="text-gray-500">Total Orders</h3>
+<p id="totalOrders" class="text-3xl font-bold">
+0
+</p>
+</div>
+
+<div class="bg-white p-5 rounded shadow">
+<h3 class="text-gray-500">Customers</h3>
+<p id="totalCustomers" class="text-3xl font-bold">
+0
+</p>
+</div>
+
+<div class="bg-white p-5 rounded shadow">
+<h3 class="text-gray-500">Completed</h3>
+<p id="completedOrders" class="text-3xl font-bold">
+0
+</p>
+</div>
+
+<div class="bg-white p-5 rounded shadow">
+<h3 class="text-gray-500">Pending</h3>
+<p id="pendingOrders" class="text-3xl font-bold">
+0
+</p>
+</div>
+
+</div>
+
+<!-- Customer Search -->
+
+<div class="bg-white mt-8 p-5 rounded shadow">
+
+<h3 class="text-2xl font-bold mb-4">
+Customer Search
+</h3>
+
+<input
+type="text"
+id="searchPhone"
+placeholder="Enter phone number"
+class="border p-3 w-full rounded"
+/>
+
+<button
+onclick="searchCustomer()"
+class="bg-green-700 text-white px-5 py-3 rounded mt-4"
+>
+Search
+</button>
+
+<div id="customerResult" class="mt-5"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const firebaseConfig = {
+
+apiKey: "<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCnPVVNkzGiCz1j_3PqzP--SQeJWUmGiSU",
+    authDomain: "fast-grocery-3322b.firebaseapp.com",
+    projectId: "fast-grocery-3322b",
+    storageBucket: "fast-grocery-3322b.firebasestorage.app",
+    messagingSenderId: "878961129693",
+    appId: "1:878961129693:web:c06f2dd4fa22ecd4624334",
+    measurementId: "G-16M82PPJTM"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>",
+
+authDomain: "YOUR_AUTH_DOMAIN",
+
+projectId: "YOUR_PROJECT_ID",
+
+storageBucket: "YOUR_STORAGE_BUCKET",
+
+messagingSenderId: "YOUR_SENDER_ID",
+
+appId: "YOUR_APP_ID"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+async function searchCustomer(){
+
+const phone =
+document.getElementById("searchPhone").value;
+
+const snapshot = await db
+.collection("orders")
+.where("phone","==",phone)
+.get();
+
+let totalOrders = snapshot.size;
+
+let gift =
+totalOrders >= 20
+? "🎁 Eligible For Gift"
+: "No Gift Yet";
+
+document.getElementById("customerResult").innerHTML = `
+
+<div class="bg-gray-100 p-4 rounded">
+
+<p class="text-xl">
+Total Orders:
+<b>${totalOrders}</b>
+</p>
+
+<p class="mt-2 text-lg">
+${gift}
+</p>
+
+</div>
+
+`;
+
+}
+
+</script>
+
+</body>
+</html>
