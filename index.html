@@ -78,6 +78,63 @@ Services
 </div>
 </section>
 
+  <!-- IMAGE SLIDER -->
+
+<section class="py-10 bg-white">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="relative overflow-hidden rounded-3xl shadow-2xl">
+
+<div id="slider" class="flex transition-all duration-700">
+
+<!-- Slide 1 -->
+
+<img
+src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop"
+class="w-full h-[500px] object-cover flex-shrink-0">
+
+<!-- Slide 2 -->
+
+<img
+src="https://images.unsplash.com/photo-1579113800032-c38bd7635818?q=80&w=1600&auto=format&fit=crop"
+class="w-full h-[500px] object-cover flex-shrink-0">
+
+<!-- Slide 3 -->
+
+<img
+src="https://images.unsplash.com/photo-1603048719539-9ecb4f9c1d80?q=80&w=1600&auto=format&fit=crop"
+class="w-full h-[500px] object-cover flex-shrink-0">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const slider = document.getElementById('slider');
+
+let slideIndex = 0;
+
+function autoSlide(){
+
+slideIndex++;
+
+if(slideIndex > 2){
+slideIndex = 0;
+}
+
+slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+
+}
+
+setInterval(autoSlide,3000);
+
+</script>
 <!-- SERVICES -->
 <section id="services" class="py-20 bg-white">
 
@@ -127,6 +184,139 @@ Easy Payment
 </div>
 </section>
 
+  <!-- PRODUCTS -->
+
+<section id="products" class="py-20 bg-gray-50">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="text-center mb-14">
+
+<h2 class="text-4xl font-bold text-green-700 mb-4">
+জনপ্রিয় পণ্যসমূহ
+</h2>
+
+<p class="text-gray-600">
+দৈনন্দিন প্রয়োজনীয় গ্রোসারি পণ্য এখন অনলাইনে।
+</p>
+
+</div>
+
+<div class="grid md:grid-cols-3 gap-8">
+
+<!-- PRODUCT 1 -->
+
+<div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+
+<img
+src="https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=1200&auto=format&fit=crop"
+class="w-full h-64 object-cover">
+
+<div class="p-6">
+
+<h3 class="text-2xl font-bold mb-2">
+চাল
+</h3>
+
+<p class="text-gray-600 mb-4">
+উন্নত মানের মিনিকেট ও নাজিরশাইল চাল।
+</p>
+
+<div class="flex justify-between items-center">
+
+<span class="text-2xl font-bold text-green-600">
+৳ 75/kg
+</span>
+
+<a
+href="https://wa.me/8801346234146?text=আমি চাল অর্ডার করতে চাই"
+class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
+Order
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PRODUCT 2 -->
+
+<div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+
+<img
+src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop"
+class="w-full h-64 object-cover">
+
+<div class="p-6">
+
+<h3 class="text-2xl font-bold mb-2">
+তাজা সবজি
+</h3>
+
+<p class="text-gray-600 mb-4">
+প্রতিদিনের ফ্রেশ সবজি ও ফলমূল।
+</p>
+
+<div class="flex justify-between items-center">
+
+<span class="text-2xl font-bold text-green-600">
+৳ 40+
+</span>
+
+<a
+href="https://wa.me/8801346234146?text=আমি সবজি অর্ডার করতে চাই"
+class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
+Order
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PRODUCT 3 -->
+
+<div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+
+<img
+src="https://images.unsplash.com/photo-1603048719539-9ecb4f9c1d80?q=80&w=1200&auto=format&fit=crop"
+class="w-full h-64 object-cover">
+
+<div class="p-6">
+
+<h3 class="text-2xl font-bold mb-2">
+তেল
+</h3>
+
+<p class="text-gray-600 mb-4">
+সয়াবিন ও সরিষার তেল সাশ্রয়ী দামে।
+</p>
+
+<div class="flex justify-between items-center">
+
+<span class="text-2xl font-bold text-green-600">
+৳ 185/L
+</span>
+
+<a
+href="https://wa.me/8801346234146?text=আমি তেল অর্ডার করতে চাই"
+class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
+Order
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
 <!-- ABOUT -->
 <section id="about" class="py-20 bg-green-50">
 
