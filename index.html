@@ -744,6 +744,29 @@ let message =
 let whatsappURL =
 `https://wa.me/8801346234146?text=${encodeURIComponent(message)}`;
 
+  db.collection("orders").add({
+
+name: name,
+
+phone: phone,
+
+address: address,
+
+product: product,
+
+time: new Date()
+
+})
+.then(() => {
+
+console.log("Order Saved");
+
+})
+.catch((error) => {
+
+console.log(error);
+
+});
 window.open(whatsappURL,'_blank');
 
 });
