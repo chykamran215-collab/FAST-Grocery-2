@@ -140,26 +140,48 @@ const firebaseConfig = {
   measurementId: "G-16M82PPJTM"
 };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>",
-
-authDomain: "YOUR_AUTH_DOMAIN",
-
-projectId: "YOUR_PROJECT_ID",
-
-storageBucket: "YOUR_STORAGE_BUCKET",
-
-messagingSenderId: "YOUR_SENDER_ID",
-
-appId: "YOUR_APP_ID"
-
-};
-
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
+
+loadDashboard();
+
+async function loadDashboard(){
+
+const snapshot = await db.collection("orders").get();
+
+document.getElementById("totalOrders").innerText =
+snapshot.size;
+
+let customers = new Set();
+
+let completed = 0;
+let pending = 0;
+
+snapshot.forEach(doc => {
+
+const data = doc.data();
+
+customers.add(data.phone);
+
+if(data.status === "completed"){
+completed++;
+}else{
+pending++;
+}
+
+});
+
+document.getElementById("totalCustomers").innerText =
+customers.size;
+
+document.getElementById("completedOrders").innerText =
+completed;
+
+document.getElementById("pendingOrders").innerText =
+pending;
+
+}
 
 async function searchCustomer(){
 
