@@ -10,21 +10,11 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
-<style>
-
-body{
-background:#f3f4f6;
-font-family:Arial;
-}
-
-</style>
 
 </head>
 
-<body>
+<body class="bg-gray-100">
 
 <div class="flex">
 
@@ -42,20 +32,12 @@ FAST_Grocery
 Dashboard
 </li>
 
-<li class="hover:bg-green-800 p-3 rounded">
-Orders
-</li>
-
-<li class="hover:bg-green-800 p-3 rounded">
+<li class="p-3 rounded bg-green-800">
 Products
 </li>
 
-<li class="hover:bg-green-800 p-3 rounded">
+<li class="p-3 rounded bg-green-800">
 Offers
-</li>
-
-<li class="hover:bg-green-800 p-3 rounded">
-Customers
 </li>
 
 </ul>
@@ -70,55 +52,82 @@ Customers
 Admin Dashboard
 </h2>
 
-<!-- STATS -->
+<!-- PRODUCT SECTION -->
 
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-
-<div class="bg-white p-5 rounded shadow">
-<h3 class="text-gray-500">Total Orders</h3>
-<p id="totalOrders" class="text-3xl font-bold">0</p>
-</div>
-
-<div class="bg-white p-5 rounded shadow">
-<h3 class="text-gray-500">Customers</h3>
-<p id="totalCustomers" class="text-3xl font-bold">0</p>
-</div>
-
-<div class="bg-white p-5 rounded shadow">
-<h3 class="text-gray-500">Completed</h3>
-<p id="completedOrders" class="text-3xl font-bold">0</p>
-</div>
-
-<div class="bg-white p-5 rounded shadow">
-<h3 class="text-gray-500">Pending</h3>
-<p id="pendingOrders" class="text-3xl font-bold">0</p>
-</div>
-
-</div>
-
-<!-- CUSTOMER SEARCH -->
-
-<div class="bg-white mt-8 p-5 rounded shadow">
+<div class="bg-white p-5 rounded shadow mb-8">
 
 <h3 class="text-2xl font-bold mb-4">
-Customer Search
+Add Product
 </h3>
 
 <input
+id="productName"
 type="text"
-id="searchPhone"
-placeholder="Enter phone number"
-class="border p-3 w-full rounded"
+placeholder="Product Name"
+class="border p-3 w-full rounded mb-3"
+/>
+
+<input
+id="productPrice"
+type="text"
+placeholder="Product Price"
+class="border p-3 w-full rounded mb-3"
 />
 
 <button
-onclick="searchCustomer()"
-class="bg-green-700 text-white px-5 py-3 rounded mt-4"
+onclick="addProduct()"
+class="bg-green-700 text-white px-5 py-3 rounded"
 >
-Search
+Add Product
 </button>
 
-<div id="customerResult" class="mt-5"></div>
+</div>
+
+<!-- PRODUCT LIST -->
+
+<div class="bg-white p-5 rounded shadow mb-8">
+
+<h3 class="text-2xl font-bold mb-4">
+Product List
+</h3>
+
+<div id="productList"></div>
+
+</div>
+
+<!-- OFFER SECTION -->
+
+<div class="bg-white p-5 rounded shadow mb-8">
+
+<h3 class="text-2xl font-bold mb-4">
+Add Offer
+</h3>
+
+<input
+id="offerText"
+type="text"
+placeholder="Offer Text"
+class="border p-3 w-full rounded mb-3"
+/>
+
+<button
+onclick="addOffer()"
+class="bg-red-600 text-white px-5 py-3 rounded"
+>
+Add Offer
+</button>
+
+</div>
+
+<!-- OFFER LIST -->
+
+<div class="bg-white p-5 rounded shadow">
+
+<h3 class="text-2xl font-bold mb-4">
+Offer List
+</h3>
+
+<div id="offerList"></div>
 
 </div>
 
@@ -150,79 +159,169 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-loadDashboard();
+loadProducts();
+loadOffers();
 
-async function loadDashboard(){
 
-const snapshot = await db.collection("orders").get();
+// ADD PRODUCT
 
-document.getElementById("totalOrders").innerText =
-snapshot.size;
+async function addProduct(){
 
-let completed = 0;
-let pending = 0;
+const name =
+document.getElementById("productName").value;
 
-let customers = new Set();
+const price =
+document.getElementById("productPrice").value;
 
-snapshot.forEach(doc => {
+await db.collection("products").add({
 
-const data = doc.data();
-
-customers.add(data.phone);
-
-if(data.status == "completed"){
-completed++;
-}
-else{
-pending++;
-}
+name:name,
+price:price
 
 });
 
-document.getElementById("completedOrders").innerText =
-completed;
+alert("Product Added");
 
-document.getElementById("pendingOrders").innerText =
-pending;
+document.getElementById("productName").value = "";
+document.getElementById("productPrice").value = "";
 
-document.getElementById("totalCustomers").innerText =
-customers.size;
+loadProducts();
 
 }
 
-async function searchCustomer(){
 
-const phone =
-document.getElementById("searchPhone").value;
+// LOAD PRODUCTS
 
-const snapshot = await db
-.collection("orders")
-.where("phone","==",phone)
-.get();
+async function loadProducts(){
 
-let totalOrders = snapshot.size;
+const snapshot =
+await db.collection("products").get();
 
-let gift =
-totalOrders >= 20
-? "🎁 Eligible For Gift"
-: "No Gift Yet";
+let html = "";
 
-document.getElementById("customerResult").innerHTML = `
+snapshot.forEach(doc=>{
 
-<div class="bg-gray-100 p-4 rounded">
+const data = doc.data();
 
-<p class="text-xl">
-Total Orders:
-<b>${totalOrders}</b>
-</p>
+html += `
 
-<p class="mt-2 text-lg">
-${gift}
+<div class="border p-4 rounded mb-3 flex justify-between">
+
+<div>
+
+<h4 class="text-xl font-bold">
+${data.name}
+</h4>
+
+<p>
+৳ ${data.price}
 </p>
 
 </div>
 
+<button
+onclick="deleteProduct('${doc.id}')"
+class="bg-red-500 text-white px-4 py-2 rounded"
+>
+Delete
+</button>
+
+</div>
+
 `;
+
+});
+
+document.getElementById("productList").innerHTML =
+html;
+
+}
+
+
+// DELETE PRODUCT
+
+async function deleteProduct(id){
+
+await db.collection("products").doc(id).delete();
+
+loadProducts();
+
+}
+
+
+// ADD OFFER
+
+async function addOffer(){
+
+const text =
+document.getElementById("offerText").value;
+
+await db.collection("offers").add({
+
+text:text
+
+});
+
+alert("Offer Added");
+
+document.getElementById("offerText").value = "";
+
+loadOffers();
+
+}
+
+
+// LOAD OFFERS
+
+async function loadOffers(){
+
+const snapshot =
+await db.collection("offers").get();
+
+let html = "";
+
+snapshot.forEach(doc=>{
+
+const data = doc.data();
+
+html += `
+
+<div class="border p-4 rounded mb-3 flex justify-between">
+
+<div>
+
+<h4 class="text-xl font-bold text-red-600">
+${data.text}
+</h4>
+
+</div>
+
+<button
+onclick="deleteOffer('${doc.id}')"
+class="bg-red-500 text-white px-4 py-2 rounded"
+>
+Delete
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("offerList").innerHTML =
+html;
+
+}
+
+
+// DELETE OFFER
+
+async function deleteOffer(id){
+
+await db.collection("offers").doc(id).delete();
+
+loadOffers();
 
 }
 
