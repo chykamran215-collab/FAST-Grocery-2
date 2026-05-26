@@ -35,7 +35,10 @@ background-position:center;
 <h1 class="text-2xl font-bold">
 FAST_Grocery
 </h1>
-
+<div class="bg-white text-green-700 px-4 py-2 rounded-xl font-bold shadow-lg">
+🛒 Cart:
+<span id="cart-count">0</span>
+</div>
 <div class="space-x-5 hidden md:block">
 <a href="#home" class="hover:text-yellow-300">Home</a>
 <a href="#services" class="hover:text-yellow-300">Services</a>
@@ -289,11 +292,11 @@ class="w-full h-64 object-cover">
 ৳ 75/kg
 </span>
 
-<a
-href="https://wa.me/8801346234146?text=আমি চাল অর্ডার করতে চাই"
+<button
+onclick="addToCart('চাল')"
 class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
-Order
-</a>
+Add To Cart
+</button>
 
 </div>
 
@@ -325,11 +328,11 @@ class="w-full h-64 object-cover">
 ৳ 40+
 </span>
 
-<a
-href="https://wa.me/8801346234146?text=আমি সবজি অর্ডার করতে চাই"
+<button
+onclick="addToCart('সবজি')"
 class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
-Order
-</a>
+Add To Cart
+</button>
 
 </div>
 
@@ -361,11 +364,11 @@ class="w-full h-64 object-cover">
 ৳ 185/L
 </span>
 
-<a
-href="https://wa.me/8801346234146?text=আমি তেল অর্ডার করতে চাই"
+<button
+onclick="addToCart('তেল')"
 class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
-Order
-</a>
+Add To Cart
+</button>
 
 </div>
 
@@ -408,7 +411,133 @@ FAST_Grocery হলো সিলেটের একটি আধুনিক অ
 
 </div>
 </section>
+<!-- CUSTOMER REVIEWS -->
 
+<section class="py-20 bg-gray-100">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="text-center mb-14">
+
+<h2 class="text-4xl font-bold text-green-700 mb-4">
+কাস্টমার রিভিউ
+</h2>
+
+<p class="text-gray-600">
+আমাদের সম্মানিত কাস্টমারদের মতামত।
+</p>
+
+</div>
+
+<div class="grid md:grid-cols-3 gap-8">
+
+<!-- REVIEW 1 -->
+
+<div class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition">
+
+<div class="text-yellow-400 text-2xl mb-4">
+★★★★★
+</div>
+
+<p class="text-gray-700 leading-7 mb-6">
+“FAST_Grocery থেকে নিয়মিত বাজার করি। খুব দ্রুত ডেলিভারি দেয় এবং পণ্যের মান অনেক ভালো।”
+</p>
+
+<div class="flex items-center gap-4">
+
+<img
+src="https://randomuser.me/api/portraits/men/32.jpg"
+class="w-14 h-14 rounded-full">
+
+<div>
+
+<h4 class="font-bold text-lg">
+Rahim Ahmed
+</h4>
+
+<p class="text-gray-500 text-sm">
+Sylhet City
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- REVIEW 2 -->
+
+<div class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition">
+
+<div class="text-yellow-400 text-2xl mb-4">
+★★★★★
+</div>
+
+<p class="text-gray-700 leading-7 mb-6">
+“অনলাইন গ্রোসারি হিসেবে FAST_Grocery অনেক ভালো সার্ভিস দিচ্ছে। অর্ডার করা খুব সহজ।”
+</p>
+
+<div class="flex items-center gap-4">
+
+<img
+src="https://randomuser.me/api/portraits/women/44.jpg"
+class="w-14 h-14 rounded-full">
+
+<div>
+
+<h4 class="font-bold text-lg">
+Nusrat Jahan
+</h4>
+
+<p class="text-gray-500 text-sm">
+Zindabazar
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- REVIEW 3 -->
+
+<div class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition">
+
+<div class="text-yellow-400 text-2xl mb-4">
+★★★★★
+</div>
+
+<p class="text-gray-700 leading-7 mb-6">
+“দাম কম এবং ডেলিভারি খুব দ্রুত। আমি খুব সন্তুষ্ট।”
+</p>
+
+<div class="flex items-center gap-4">
+
+<img
+src="https://randomuser.me/api/portraits/men/76.jpg"
+class="w-14 h-14 rounded-full">
+
+<div>
+
+<h4 class="font-bold text-lg">
+Karim Uddin
+</h4>
+
+<p class="text-gray-500 text-sm">
+Amberkhana
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
 <!-- CONTACT -->
 <section id="contact" class="py-20 bg-white">
 
@@ -448,7 +577,99 @@ Order Now on WhatsApp
 
 </div>
 </section>
+<!-- ORDER FORM -->
 
+<section class="py-20 bg-green-50">
+
+<div class="max-w-4xl mx-auto px-6">
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+<div class="text-center mb-10">
+
+<h2 class="text-4xl font-bold text-green-700 mb-4">
+অর্ডার করুন
+</h2>
+
+<p class="text-gray-600">
+নিচের ফর্ম পূরণ করে অর্ডার করুন।
+</p>
+
+</div>
+
+<form id="orderForm" class="space-y-6">
+
+<div>
+
+<label class="block mb-2 font-semibold">
+আপনার নাম
+</label>
+
+<input
+type="text"
+id="name"
+placeholder="আপনার নাম লিখুন"
+class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:border-green-500">
+
+</div>
+
+<div>
+
+<label class="block mb-2 font-semibold">
+মোবাইল নাম্বার
+</label>
+
+<input
+type="tel"
+id="phone"
+placeholder="01XXXXXXXXX"
+class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:border-green-500">
+
+</div>
+
+<div>
+
+<label class="block mb-2 font-semibold">
+ঠিকানা
+</label>
+
+<textarea
+id="address"
+rows="4"
+placeholder="আপনার ঠিকানা লিখুন"
+class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:border-green-500"></textarea>
+
+</div>
+
+<div>
+
+<label class="block mb-2 font-semibold">
+কি অর্ডার করতে চান
+</label>
+
+<textarea
+id="product"
+rows="4"
+placeholder="যেমন: চাল ৫ কেজি, তেল ২ লিটার"
+class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:border-green-500"></textarea>
+
+</div>
+
+<button
+type="submit"
+class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-2xl text-xl font-bold transition">
+
+WhatsApp এ অর্ডার পাঠান
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
 <!-- FOOTER -->
 <footer class="bg-green-700 text-white py-6 text-center">
 <p>
@@ -475,5 +696,53 @@ viewBox="0 0 16 16">
 </svg>
 
 </a>
+  <script>
+
+let cart = 0;
+
+function addToCart(product){
+
+cart++;
+
+document.getElementById('cart-count').innerText = cart;
+
+alert(product + " cart এ যোগ হয়েছে 🛒");
+
+}
+
+</script>
+  <script>
+
+document.getElementById('orderForm').addEventListener('submit', function(e){
+
+e.preventDefault();
+
+let name = document.getElementById('name').value;
+
+let phone = document.getElementById('phone').value;
+
+let address = document.getElementById('address').value;
+
+let product = document.getElementById('product').value;
+
+let message =
+`🛒 FAST_Grocery Order
+
+👤 Name: ${name}
+
+📞 Phone: ${phone}
+
+📍 Address: ${address}
+
+📦 Product: ${product}`;
+
+let whatsappURL =
+`https://wa.me/8801346234146?text=${encodeURIComponent(message)}`;
+
+window.open(whatsappURL,'_blank');
+
+});
+
+</script>
 </body>
 </html>
