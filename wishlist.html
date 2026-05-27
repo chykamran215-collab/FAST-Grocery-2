@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FAST_Grocery Wishlist</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-pink-50">
+
+<div class="max-w-5xl mx-auto p-6">
+
+<h1 class="text-4xl font-bold text-pink-600 mb-8">
+❤️ Wishlist
+</h1>
+
+<div id="wishlistItems"></div>
+
+</div>
+
+<script>
+
+let wishlist =
+JSON.parse(localStorage.getItem("wishlist")) || [];
+
+function loadWishlist(){
+
+let html = "";
+
+wishlist.forEach((item,index)=>{
+
+html += `
+
+<div class="bg-white p-5 rounded-2xl shadow mb-5 flex justify-between items-center">
+
+<div>
+
+<img
+src="${item.image}"
+class="w-32 h-32 object-cover rounded-xl mb-3">
+
+<h2 class="text-2xl font-bold">
+${item.name}
+</h2>
+
+<p class="text-green-700 font-bold text-xl">
+৳ ${item.price}
+</p>
+
+</div>
+
+<button
+onclick="removeWishlist(${index})"
+class="bg-red-600 text-white px-5 py-2 rounded-xl">
+
+Remove
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("wishlistItems").innerHTML = html;
+
+}
+
+function removeWishlist(index){
+
+wishlist.splice(index,1);
+
+localStorage.setItem("wishlist",JSON.stringify(wishlist));
+
+loadWishlist();
+
+}
+
+loadWishlist();
+
+</script>
+
+</body>
+</html>
