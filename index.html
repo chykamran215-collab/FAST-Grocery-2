@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,109 +13,90 @@
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 body{
 font-family:'Hind Siliguri',sans-serif;
 scroll-behavior:smooth;
 }
+
 .hero{
 background:
 linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
 url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop');
+
 background-size:cover;
 background-position:center;
 }
+
 </style>
-  <!-- Firebase -->
+
+<!-- Firebase -->
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 </head>
 
 <body class="bg-gray-50 text-gray-800">
 
 <!-- NAVBAR -->
+
 <nav class="bg-green-600 text-white shadow-lg sticky top-0 z-50">
+
 <div class="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
 
 <h1 class="text-2xl font-bold">
 FAST_Grocery
 </h1>
+
 <div class="bg-white text-green-700 px-4 py-2 rounded-xl font-bold shadow-lg">
 🛒 Cart:
 <span id="cart-count">0</span>
 </div>
+
 <div class="space-x-5 hidden md:block">
+
 <a href="#home" class="hover:text-yellow-300">Home</a>
-<a href="#services" class="hover:text-yellow-300">Services</a>
-<a href="#about" class="hover:text-yellow-300">About</a>
+
+<a href="#products" class="hover:text-yellow-300">Products</a>
+
 <a href="#contact" class="hover:text-yellow-300">Contact</a>
+
 </div>
 
 </div>
+
 </nav>
 
 <!-- HERO -->
+
 <section id="home" class="hero text-white min-h-screen flex items-center">
 
 <div class="max-w-7xl mx-auto px-6">
 
 <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">
+
 সিলেট শহরের দ্রুততম <br>
 অনলাইন গ্রোসারি শপ
+
 </h1>
 
 <p class="text-xl mb-8 max-w-2xl">
+
 তাজা সবজি, চাল, ডাল, তেল, নিত্যপ্রয়োজনীয় সব পণ্য এখন ঘরে বসেই অর্ডার করুন।
-দ্রুত ডেলিভারি সারা সিলেট শহরে।
+
 </p>
 
 <div class="flex flex-wrap gap-4">
 
 <a href="https://wa.me/8801346234146"
+
 class="bg-green-500 hover:bg-green-700 px-8 py-4 rounded-xl text-lg font-semibold transition">
+
 WhatsApp Order
+
 </a>
-
-<a href="#services"
-class="bg-white text-green-700 hover:bg-gray-200 px-8 py-4 rounded-xl text-lg font-semibold transition">
-Services
-</a>
-
-</div>
-
-</div>
-</section>
-
-  <!-- IMAGE SLIDER -->
-
-<section class="py-10 bg-white">
-
-<div class="max-w-7xl mx-auto px-6">
-
-<div class="relative overflow-hidden rounded-3xl shadow-2xl">
-
-<div id="slider" class="flex transition-all duration-700">
-
-<!-- Slide 1 -->
-
-<img
-src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop"
-class="w-full h-[500px] object-cover flex-shrink-0">
-
-<!-- Slide 2 -->
-
-<img
-src="https://images.unsplash.com/photo-1579113800032-c38bd7635818?q=80&w=1600&auto=format&fit=crop"
-class="w-full h-[500px] object-cover flex-shrink-0">
-
-<!-- Slide 3 -->
-
-<img
-src="https://images.unsplash.com/photo-1603048719539-9ecb4f9c1d80?q=80&w=1600&auto=format&fit=crop"
-class="w-full h-[500px] object-cover flex-shrink-0">
-
-</div>
 
 </div>
 
@@ -122,140 +104,25 @@ class="w-full h-[500px] object-cover flex-shrink-0">
 
 </section>
 
-<script>
+<!-- OFFERS -->
 
-const slider = document.getElementById('slider');
-
-let slideIndex = 0;
-
-function autoSlide(){
-
-slideIndex++;
-
-if(slideIndex > 2){
-slideIndex = 0;
-}
-
-slider.style.transform = `translateX(-${slideIndex * 100}%)`;
-
-}
-
-setInterval(autoSlide,3000);
-
-</script>
-<!-- SERVICES -->
-<section id="services" class="py-20 bg-white">
+<section class="py-10 bg-red-600 text-white">
 
 <div class="max-w-7xl mx-auto px-6">
 
-<div class="text-center mb-14">
-<h2 class="text-4xl font-bold text-green-700 mb-4">
-আমাদের সার্ভিস
+<h2 class="text-3xl font-bold mb-6 text-center">
+🔥 Today's Offers
 </h2>
 
-<p class="text-gray-600">
-FAST_Grocery আপনাকে দিচ্ছে প্রিমিয়াম অনলাইন গ্রোসারি সার্ভিস।
-</p>
-</div>
-
-<div class="grid md:grid-cols-3 gap-8">
-
-<div class="bg-gray-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition">
-<h3 class="text-2xl font-bold mb-4 text-green-700">
-Fresh Vegetables
-</h3>
-<p>
-প্রতিদিন তাজা সবজি ও ফলমূল সংগ্রহ করুন।
-</p>
-</div>
-
-<div class="bg-gray-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition">
-<h3 class="text-2xl font-bold mb-4 text-green-700">
-Fast Delivery
-</h3>
-<p>
-সিলেট শহরের ভিতরে দ্রুত ডেলিভারি।
-</p>
-</div>
-
-<div class="bg-gray-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition">
-<h3 class="text-2xl font-bold mb-4 text-green-700">
-Easy Payment
-</h3>
-<p>
-বিকাশ, নগদ ও ক্যাশ অন ডেলিভারি সুবিধা।
-</p>
-</div>
-
-</div>
-
-</div>
-</section>
-
-  <!-- OFFER BANNER -->
-
-<section class="py-12 bg-gradient-to-r from-green-600 to-green-800 text-white">
-
-<div class="max-w-7xl mx-auto px-6">
-
-<div class="grid md:grid-cols-2 gap-10 items-center">
-
-<div>
-
-<h2 class="text-5xl font-bold leading-tight mb-6">
-বিশেষ অফার 🔥
-</h2>
-
-<p class="text-xl mb-6 leading-8">
-আজকের অর্ডারে পাচ্ছেন
-<span class="font-bold text-yellow-300">
-১০% পর্যন্ত ডিসকাউন্ট
-</span>
-এবং দ্রুত হোম ডেলিভারি।
-</p>
-
-<ul class="space-y-3 text-lg">
-
-<li>✅ Fresh Grocery Products</li>
-
-<li>✅ Fast Delivery in Sylhet</li>
-
-<li>✅ bKash / Nagad Payment</li>
-
-<li>✅ WhatsApp Order System</li>
-
-</ul>
-
-<div class="mt-8">
-
-<a
-href="https://wa.me/8801346234146?text=আমি অফারের পণ্য অর্ডার করতে চাই"
-class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-4 rounded-2xl inline-block transition">
-
-Order Now
-
-</a>
-
-</div>
-
-</div>
-
-<div>
-
-<img
-src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop"
-class="rounded-3xl shadow-2xl w-full h-[400px] object-cover">
-
-</div>
-
-</div>
+<div id="offerContainer" class="grid md:grid-cols-2 gap-5"></div>
 
 </div>
 
 </section>
-  <!-- PRODUCTS -->
 
-<section id="products" class="py-20 bg-gray-50">
+<!-- PRODUCTS -->
+
+<section id="products" class="py-20 bg-gray-100">
 
 <div class="max-w-7xl mx-auto px-6">
 
@@ -266,284 +133,82 @@ class="rounded-3xl shadow-2xl w-full h-[400px] object-cover">
 </h2>
 
 <p class="text-gray-600">
-দৈনন্দিন প্রয়োজনীয় গ্রোসারি পণ্য এখন অনলাইনে।
+লাইভ প্রোডাক্ট এখন Admin Dashboard থেকে নিয়ন্ত্রণ করা যাবে
 </p>
 
 </div>
 
-<div class="grid md:grid-cols-3 gap-8">
-
-<!-- PRODUCT 1 -->
-
-<div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-
-<img
-src="https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=1200&auto=format&fit=crop"
-class="w-full h-64 object-cover">
-
-<div class="p-6">
-
-<h3 class="text-2xl font-bold mb-2">
-চাল
-</h3>
-
-<p class="text-gray-600 mb-4">
-উন্নত মানের মিনিকেট ও নাজিরশাইল চাল।
-</p>
-
-<div class="flex justify-between items-center">
-
-<span class="text-2xl font-bold text-green-600">
-৳ 75/kg
-</span>
-
-<button
-onclick="addToCart('চাল')"
-class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
-Add To Cart
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- PRODUCT 2 -->
-
-<div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-
-<img
-src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop"
-class="w-full h-64 object-cover">
-
-<div class="p-6">
-
-<h3 class="text-2xl font-bold mb-2">
-তাজা সবজি
-</h3>
-
-<p class="text-gray-600 mb-4">
-প্রতিদিনের ফ্রেশ সবজি ও ফলমূল।
-</p>
-
-<div class="flex justify-between items-center">
-
-<span class="text-2xl font-bold text-green-600">
-৳ 40+
-</span>
-
-<button
-onclick="addToCart('সবজি')"
-class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
-Add To Cart
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- PRODUCT 3 -->
-
-<div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-
-<img
-src="https://images.unsplash.com/photo-1603048719539-9ecb4f9c1d80?q=80&w=1200&auto=format&fit=crop"
-class="w-full h-64 object-cover">
-
-<div class="p-6">
-
-<h3 class="text-2xl font-bold mb-2">
-তেল
-</h3>
-
-<p class="text-gray-600 mb-4">
-সয়াবিন ও সরিষার তেল সাশ্রয়ী দামে।
-</p>
-
-<div class="flex justify-between items-center">
-
-<span class="text-2xl font-bold text-green-600">
-৳ 185/L
-</span>
-
-<button
-onclick="addToCart('তেল')"
-class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
-Add To Cart
-</button>
-
-</div>
-
-</div>
-
-</div>
+<div id="productContainer"
+class="grid md:grid-cols-3 gap-8">
 
 </div>
 
 </div>
 
 </section>
-<!-- ABOUT -->
-<section id="about" class="py-20 bg-green-50">
 
-<div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+<!-- ORDER FORM -->
 
-<div>
-<img
-src="https://images.unsplash.com/photo-1579113800032-c38bd7635818?q=80&w=1200&auto=format&fit=crop"
-class="rounded-3xl shadow-2xl">
-</div>
+<section class="py-20 bg-green-50">
 
-<div>
+<div class="max-w-4xl mx-auto px-6">
 
-<h2 class="text-4xl font-bold text-green-700 mb-6">
-FAST_Grocery সম্পর্কে
-</h2>
+<div class="bg-white rounded-3xl shadow-2xl p-10">
 
-<p class="text-lg leading-8 text-gray-700 mb-5">
-FAST_Grocery হলো সিলেটের একটি আধুনিক অনলাইন গ্রোসারি প্ল্যাটফর্ম।
-আমাদের লক্ষ্য হলো দ্রুত ও নির্ভরযোগ্য গ্রোসারি ডেলিভারি নিশ্চিত করা।
-</p>
-
-<p class="text-lg leading-8 text-gray-700">
-আমরা সেরা মানের পণ্য সাশ্রয়ী মূল্যে পৌঁছে দেই।
-</p>
-
-</div>
-
-</div>
-</section>
-<!-- CUSTOMER REVIEWS -->
-
-<section class="py-20 bg-gray-100">
-
-<div class="max-w-7xl mx-auto px-6">
-
-<div class="text-center mb-14">
+<div class="text-center mb-10">
 
 <h2 class="text-4xl font-bold text-green-700 mb-4">
-কাস্টমার রিভিউ
+অর্ডার করুন
 </h2>
 
-<p class="text-gray-600">
-আমাদের সম্মানিত কাস্টমারদের মতামত।
-</p>
-
 </div>
 
-<div class="grid md:grid-cols-3 gap-8">
+<form id="orderForm" class="space-y-6">
 
-<!-- REVIEW 1 -->
+<input
+type="text"
+id="name"
+placeholder="আপনার নাম"
+class="w-full border-2 border-gray-200 rounded-xl p-4"
+/>
 
-<div class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition">
+<input
+type="tel"
+id="phone"
+placeholder="মোবাইল নাম্বার"
+class="w-full border-2 border-gray-200 rounded-xl p-4"
+/>
 
-<div class="text-yellow-400 text-2xl mb-4">
-★★★★★
-</div>
+<textarea
+id="address"
+rows="4"
+placeholder="ঠিকানা"
+class="w-full border-2 border-gray-200 rounded-xl p-4"></textarea>
 
-<p class="text-gray-700 leading-7 mb-6">
-“FAST_Grocery থেকে নিয়মিত বাজার করি। খুব দ্রুত ডেলিভারি দেয় এবং পণ্যের মান অনেক ভালো।”
-</p>
+<textarea
+id="product"
+rows="4"
+placeholder="কি অর্ডার করতে চান"
+class="w-full border-2 border-gray-200 rounded-xl p-4"></textarea>
 
-<div class="flex items-center gap-4">
+<button
+type="submit"
+class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-2xl text-xl font-bold">
 
-<img
-src="https://randomuser.me/api/portraits/men/32.jpg"
-class="w-14 h-14 rounded-full">
+WhatsApp এ অর্ডার পাঠান
 
-<div>
+</button>
 
-<h4 class="font-bold text-lg">
-Rahim Ahmed
-</h4>
-
-<p class="text-gray-500 text-sm">
-Sylhet City
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- REVIEW 2 -->
-
-<div class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition">
-
-<div class="text-yellow-400 text-2xl mb-4">
-★★★★★
-</div>
-
-<p class="text-gray-700 leading-7 mb-6">
-“অনলাইন গ্রোসারি হিসেবে FAST_Grocery অনেক ভালো সার্ভিস দিচ্ছে। অর্ডার করা খুব সহজ।”
-</p>
-
-<div class="flex items-center gap-4">
-
-<img
-src="https://randomuser.me/api/portraits/women/44.jpg"
-class="w-14 h-14 rounded-full">
-
-<div>
-
-<h4 class="font-bold text-lg">
-Nusrat Jahan
-</h4>
-
-<p class="text-gray-500 text-sm">
-Zindabazar
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- REVIEW 3 -->
-
-<div class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition">
-
-<div class="text-yellow-400 text-2xl mb-4">
-★★★★★
-</div>
-
-<p class="text-gray-700 leading-7 mb-6">
-“দাম কম এবং ডেলিভারি খুব দ্রুত। আমি খুব সন্তুষ্ট।”
-</p>
-
-<div class="flex items-center gap-4">
-
-<img
-src="https://randomuser.me/api/portraits/men/76.jpg"
-class="w-14 h-14 rounded-full">
-
-<div>
-
-<h4 class="font-bold text-lg">
-Karim Uddin
-</h4>
-
-<p class="text-gray-500 text-sm">
-Amberkhana
-</p>
-
-</div>
-
-</div>
-
-</div>
+</form>
 
 </div>
 
 </div>
 
 </section>
+
 <!-- CONTACT -->
+
 <section id="contact" class="py-20 bg-white">
 
 <div class="max-w-5xl mx-auto px-6 text-center">
@@ -571,137 +236,62 @@ Amberkhana
 
 </div>
 
-<div class="mt-10">
-
-<a href="https://wa.me/8801346234146"
-class="inline-block bg-green-600 hover:bg-green-700 text-white px-10 py-4 rounded-xl text-lg font-bold transition">
-Order Now on WhatsApp
-</a>
-
-</div>
-
-</div>
-</section>
-<!-- ORDER FORM -->
-
-<section class="py-20 bg-green-50">
-
-<div class="max-w-4xl mx-auto px-6">
-
-<div class="bg-white rounded-3xl shadow-2xl p-10">
-
-<div class="text-center mb-10">
-
-<h2 class="text-4xl font-bold text-green-700 mb-4">
-অর্ডার করুন
-</h2>
-
-<p class="text-gray-600">
-নিচের ফর্ম পূরণ করে অর্ডার করুন।
-</p>
-
-</div>
-
-<form id="orderForm" class="space-y-6">
-
-<div>
-
-<label class="block mb-2 font-semibold">
-আপনার নাম
-</label>
-
-<input
-type="text"
-id="name"
-placeholder="আপনার নাম লিখুন"
-class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:border-green-500">
-
-</div>
-
-<div>
-
-<label class="block mb-2 font-semibold">
-মোবাইল নাম্বার
-</label>
-
-<input
-type="tel"
-id="phone"
-placeholder="01XXXXXXXXX"
-class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:border-green-500">
-
-</div>
-
-<div>
-
-<label class="block mb-2 font-semibold">
-ঠিকানা
-</label>
-
-<textarea
-id="address"
-rows="4"
-placeholder="আপনার ঠিকানা লিখুন"
-class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:border-green-500"></textarea>
-
-</div>
-
-<div>
-
-<label class="block mb-2 font-semibold">
-কি অর্ডার করতে চান
-</label>
-
-<textarea
-id="product"
-rows="4"
-placeholder="যেমন: চাল ৫ কেজি, তেল ২ লিটার"
-class="w-full border-2 border-gray-200 rounded-xl p-4 focus:outline-none focus:border-green-500"></textarea>
-
-</div>
-
-<button
-type="submit"
-class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-2xl text-xl font-bold transition">
-
-WhatsApp এ অর্ডার পাঠান
-
-</button>
-
-</form>
-
-</div>
-
 </div>
 
 </section>
+
 <!-- FOOTER -->
+
 <footer class="bg-green-700 text-white py-6 text-center">
+
 <p>
-© 2026 FAST_Grocery | All Rights Reserved
+©️ 2026 FAST_Grocery | All Rights Reserved
 </p>
+
 </footer>
 
-  <!-- WhatsApp Floating Button -->
+<!-- WHATSAPP FLOAT -->
 
 <a
 href="https://wa.me/8801346234146"
 target="_blank"
-class="fixed bottom-5 right-5 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-50 transition duration-300"
->
+class="fixed bottom-5 right-5 bg-green-500 text-white p-4 rounded-full shadow-2xl z-50">
 
-<svg xmlns="http://www.w3.org/2000/svg"
-width="32"
-height="32"
-fill="currentColor"
-viewBox="0 0 16 16">
-
-<path d="M13.601 2.326A7.854 7.854 0 0 0 8.015 0C3.627 0 .055 3.574.055 7.963c0 1.4.366 2.765 1.06 3.97L0 16l4.17-1.092a7.93 7.93 0 0 0 3.845.982h.003c4.388 0 7.96-3.574 7.96-7.963a7.9 7.9 0 0 0-2.377-5.601zM8.018 14.5a6.5 6.5 0 0 1-3.31-.908l-.237-.14-2.475.648.66-2.413-.154-.247a6.48 6.48 0 0 1-.994-3.477c0-3.59 2.92-6.51 6.51-6.51 1.739 0 3.373.678 4.603 1.908a6.466 6.466 0 0 1 1.907 4.602c-.001 3.59-2.922 6.51-6.51 6.51zm3.575-4.885c-.196-.098-1.16-.572-1.34-.637-.18-.066-.311-.098-.442.098-.13.197-.507.637-.622.768-.114.131-.229.147-.425.05-.196-.099-.828-.305-1.578-.973-.584-.52-.978-1.16-1.092-1.356-.114-.197-.012-.303.086-.4.088-.087.196-.229.294-.343.098-.115.13-.197.196-.328.065-.131.032-.246-.016-.344-.049-.098-.442-1.066-.606-1.46-.16-.385-.323-.332-.442-.338l-.376-.007c-.13 0-.343.05-.523.246-.18.197-.687.67-.687 1.635 0 .966.703 1.9.801 2.03.098.132 1.383 2.113 3.35 2.962.468.202.833.323 1.117.413.47.149.897.128 1.235.078.377-.056 1.16-.474 1.324-.933.163-.458.163-.85.114-.933-.049-.082-.18-.131-.377-.229z"/>
-
-</svg>
+💬
 
 </a>
-  <script>
+
+<!-- FIREBASE -->
+
+<script>
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCnPVVNkzGiCz1j_3PqzP--SQeJWUmGiSU",
+
+authDomain: "fast-grocery-3322b.firebaseapp.com",
+
+projectId: "fast-grocery-3322b",
+
+storageBucket: "fast-grocery-3322b.appspot.com",
+
+messagingSenderId: "878961129693",
+
+appId: "1:878961129693:web:c06f2dd4fa22ecd4624334",
+
+measurementId: "G-16M82PPJTM"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+</script>
+
+<!-- CART -->
+
+<script>
 
 let cart = 0;
 
@@ -716,21 +306,132 @@ alert(product + " cart এ যোগ হয়েছে 🛒");
 }
 
 </script>
-  <script>
 
-document.getElementById('orderForm').addEventListener('submit', function(e){
+<!-- LOAD PRODUCTS -->
+
+<script>
+
+async function loadProducts(){
+
+const snapshot =
+await db.collection("products").get();
+
+let html = "";
+
+snapshot.forEach(doc=>{
+
+const data = doc.data();
+
+html += `
+
+<div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+
+<img
+src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop"
+class="w-full h-64 object-cover">
+
+<div class="p-6">
+
+<h3 class="text-2xl font-bold mb-2">
+${data.name}
+</h3>
+
+<p class="text-gray-600 mb-4">
+Fresh Grocery Product
+</p>
+
+<div class="flex justify-between items-center">
+
+<span class="text-2xl font-bold text-green-600">
+৳ ${data.price}
+</span>
+
+<button
+onclick="addToCart('${data.name}')"
+class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
+
+Add To Cart
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("productContainer").innerHTML = html;
+
+}
+
+loadProducts();
+
+</script>
+
+<!-- LOAD OFFERS -->
+
+<script>
+
+async function loadOffers(){
+
+const snapshot =
+await db.collection("offers").get();
+
+let html = "";
+
+snapshot.forEach(doc=>{
+
+const data = doc.data();
+
+html += `
+
+<div class="bg-white text-red-600 p-6 rounded-2xl shadow-xl">
+
+<h3 class="text-2xl font-bold">
+${data.text}
+</h3>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("offerContainer").innerHTML = html;
+
+}
+
+loadOffers();
+
+</script>
+
+<!-- ORDER FORM -->
+
+<script>
+
+document.getElementById('orderForm')
+.addEventListener('submit', function(e){
 
 e.preventDefault();
 
-let name = document.getElementById('name').value;
+let name =
+document.getElementById('name').value;
 
-let phone = document.getElementById('phone').value;
+let phone =
+document.getElementById('phone').value;
 
-let address = document.getElementById('address').value;
+let address =
+document.getElementById('address').value;
 
-let product = document.getElementById('product').value;
+let product =
+document.getElementById('product').value;
 
 let message =
+
 `🛒 FAST_Grocery Order
 
 👤 Name: ${name}
@@ -741,85 +442,35 @@ let message =
 
 📦 Product: ${product}`;
 
-let whatsappURL =
-`https://wa.me/8801346234146?text=${encodeURIComponent(message)}`;
-
 db.collection("orders").add({
 
-name: name,
-
-phone: phone,
-
-address: address,
-
-product: product,
-
-time: new Date()
+name:name,
+phone:phone,
+address:address,
+product:product,
+status:"Pending",
+time:new Date()
 
 })
-.then(() => {
+.then(()=>{
 
-console.log("Order Saved");
+alert("Order Saved Successfully");
 
 })
-.catch((error) => {
+.catch((error)=>{
 
 console.log(error);
 
 });
+
+let whatsappURL =
+`https://wa.me/8801346234146?text=${encodeURIComponent(message)}`;
+
 window.open(whatsappURL,'_blank');
 
 });
 
 </script>
-  <script>
 
-/* Firebase Config */
-
-const firebaseConfig = {
-
-apiKey: " <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCnPVVNkzGiCz1j_3PqzP--SQeJWUmGiSU",
-    authDomain: "fast-grocery-3322b.firebaseapp.com",
-    projectId: "fast-grocery-3322b",
-    storageBucket: "fast-grocery-3322b.firebasestorage.app",
-    messagingSenderId: "878961129693",
-    appId: "1:878961129693:web:c06f2dd4fa22ecd4624334",
-    measurementId: "G-16M82PPJTM"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>",
-
-authDomain: "YOUR_AUTH_DOMAIN",
-
-projectId: "YOUR_PROJECT_ID",
-
-storageBucket: "YOUR_STORAGE_BUCKET",
-
-messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-
-appId: "YOUR_APP_ID"
-
-};
-
-/* Initialize Firebase */
-
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-
-</script>
 </body>
 </html>
