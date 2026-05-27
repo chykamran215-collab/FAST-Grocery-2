@@ -5,25 +5,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FAST_Grocery Admin</title>
+<title>FAST_Grocery Admin Dashboard</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 </head>
 
 <body class="bg-gray-100">
 
-<div class="flex">
+<div class="flex flex-col md:flex-row min-h-screen">
 
 <!-- SIDEBAR -->
 
-<div class="w-64 bg-green-700 min-h-screen text-white p-5">
+<div class="w-full md:w-64 bg-green-700 text-white p-5">
 
 <h1 class="text-3xl font-bold mb-10">
 FAST_Grocery
@@ -35,19 +33,19 @@ FAST_Grocery
 Dashboard
 </li>
 
-<li class="p-3 rounded bg-green-800">
+<li class="bg-green-800 p-3 rounded">
 Products
 </li>
 
-<li class="p-3 rounded bg-green-800">
+<li class="bg-green-800 p-3 rounded">
 Offers
 </li>
 
-<li class="p-3 rounded bg-green-800">
+<li class="bg-green-800 p-3 rounded">
 Orders
 </li>
 
-<li class="p-3 rounded bg-green-800">
+<li class="bg-green-800 p-3 rounded">
 Customers
 </li>
 
@@ -59,7 +57,9 @@ Customers
 
 <div class="flex-1 p-6">
 
-<div class="flex justify-between items-center mb-6">
+<!-- TOP -->
+
+<div class="flex justify-between items-center mb-8">
 
 <h2 class="text-3xl font-bold">
 Admin Dashboard
@@ -84,10 +84,8 @@ Logout
 Products
 </h3>
 
-<p
-id="totalProducts"
-class="text-3xl font-bold text-green-700"
->
+<p id="totalProducts"
+class="text-3xl font-bold text-green-700">
 0
 </p>
 
@@ -99,10 +97,8 @@ class="text-3xl font-bold text-green-700"
 Offers
 </h3>
 
-<p
-id="totalOffers"
-class="text-3xl font-bold text-red-600"
->
+<p id="totalOffers"
+class="text-3xl font-bold text-red-600">
 0
 </p>
 
@@ -114,10 +110,8 @@ class="text-3xl font-bold text-red-600"
 Orders
 </h3>
 
-<p
-id="totalOrders"
-class="text-3xl font-bold text-blue-600"
->
+<p id="totalOrders"
+class="text-3xl font-bold text-blue-600">
 0
 </p>
 
@@ -129,10 +123,8 @@ class="text-3xl font-bold text-blue-600"
 Customers
 </h3>
 
-<p
-id="totalCustomers"
-class="text-3xl font-bold text-purple-600"
->
+<p id="totalCustomers"
+class="text-3xl font-bold text-purple-600">
 0
 </p>
 
@@ -157,19 +149,16 @@ class="border p-3 w-full rounded mb-3"
 
 <button
 onclick="searchCustomer()"
-class="bg-blue-600 text-white px-5 py-3 rounded"
+class="bg-blue-600 text-white px-5 py-3 rounded w-full"
 >
 Search Customer
 </button>
 
-<div
-id="customerResult"
-class="mt-5"
-></div>
+<div id="customerResult" class="mt-5"></div>
 
 </div>
 
-<!-- PRODUCT SECTION -->
+<!-- ADD PRODUCT -->
 
 <div class="bg-white p-5 rounded shadow mb-8">
 
@@ -186,7 +175,7 @@ class="border p-3 w-full rounded mb-3"
 
 <input
 id="productPrice"
-type="text"
+type="number"
 placeholder="Product Price"
 class="border p-3 w-full rounded mb-3"
 />
@@ -219,7 +208,7 @@ Product List
 
 </div>
 
-<!-- OFFER SECTION -->
+<!-- ADD OFFER -->
 
 <div class="bg-white p-5 rounded shadow mb-8">
 
@@ -255,15 +244,15 @@ Offer List
 
 </div>
 
-<!-- ORDERS SECTION -->
+<!-- LIVE ORDERS -->
 
 <div class="bg-white p-5 rounded shadow">
 
 <h3 class="text-2xl font-bold mb-4">
-Latest Orders
+Live Orders
 </h3>
 
-<div id="ordersList"></div>
+<div id="orderList"></div>
 
 </div>
 
@@ -307,9 +296,9 @@ window.location.href = "login.html";
 
 });
 
+loadStats();
 loadProducts();
 loadOffers();
-loadStats();
 loadOrders();
 
 
@@ -509,7 +498,9 @@ html;
 
 async function deleteProduct(id){
 
-await db.collection("products").doc(id).delete();
+await db.collection("products")
+.doc(id)
+.delete();
 
 loadProducts();
 loadStats();
@@ -592,7 +583,9 @@ html;
 
 async function deleteOffer(id){
 
-await db.collection("offers").doc(id).delete();
+await db.collection("offers")
+.doc(id)
+.delete();
 
 loadOffers();
 loadStats();
@@ -605,7 +598,9 @@ loadStats();
 async function loadOrders(){
 
 const snapshot =
-await db.collection("orders").get();
+await db.collection("orders")
+.orderBy("time","desc")
+.get();
 
 let html = "";
 
@@ -615,31 +610,74 @@ const data = doc.data();
 
 html += `
 
-<div class="border p-4 rounded mb-3">
+<div class="border p-4 rounded mb-4 bg-gray-50">
 
-<p>
-<b>Name:</b>
+<div class="flex justify-between items-start gap-4">
+
+<div>
+
+<p class="mb-1">
+<b>👤 Name:</b>
 ${data.name || "No Name"}
 </p>
 
-<p>
-<b>Phone:</b>
+<p class="mb-1">
+<b>📞 Phone:</b>
 ${data.phone || "No Phone"}
 </p>
 
-<p>
-<b>Address:</b>
+<p class="mb-1">
+<b>📍 Address:</b>
 ${data.address || "No Address"}
 </p>
 
-<p>
-<b>Status:</b>
+<p class="mb-1">
+<b>🛒 Items:</b>
+${data.items || "No Items"}
+</p>
 
-<span class="text-orange-600 font-bold">
+<p class="mb-1">
+<b>💰 Total:</b>
+৳ ${data.total || "0"}
+</p>
+
+<p class="mb-1">
+<b>📦 Status:</b>
+
+<span class="
+${data.status=="Completed"
+? "text-green-600"
+: "text-orange-600"}
+font-bold
+">
+
 ${data.status || "Pending"}
+
 </span>
 
 </p>
+
+</div>
+
+<div class="flex flex-col gap-2">
+
+<button
+onclick="completeOrder('${doc.id}')"
+class="bg-green-600 text-white px-4 py-2 rounded"
+>
+Complete
+</button>
+
+<button
+onclick="deleteOrder('${doc.id}')"
+class="bg-red-600 text-white px-4 py-2 rounded"
+>
+Delete
+</button>
+
+</div>
+
+</div>
 
 </div>
 
@@ -647,8 +685,39 @@ ${data.status || "Pending"}
 
 });
 
-document.getElementById("ordersList").innerHTML =
+document.getElementById("orderList").innerHTML =
 html;
+
+}
+
+
+// COMPLETE ORDER
+
+async function completeOrder(id){
+
+await db.collection("orders")
+.doc(id)
+.update({
+
+status:"Completed"
+
+});
+
+loadOrders();
+
+}
+
+
+// DELETE ORDER
+
+async function deleteOrder(id){
+
+await db.collection("orders")
+.doc(id)
+.delete();
+
+loadOrders();
+loadStats();
 
 }
 
