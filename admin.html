@@ -10,7 +10,10 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 </head>
 
@@ -40,6 +43,14 @@ Products
 Offers
 </li>
 
+<li class="p-3 rounded bg-green-800">
+Orders
+</li>
+
+<li class="p-3 rounded bg-green-800">
+Customers
+</li>
+
 </ul>
 
 </div>
@@ -48,9 +59,115 @@ Offers
 
 <div class="flex-1 p-6">
 
-<h2 class="text-3xl font-bold mb-6">
+<div class="flex justify-between items-center mb-6">
+
+<h2 class="text-3xl font-bold">
 Admin Dashboard
 </h2>
+
+<button
+onclick="logout()"
+class="bg-red-600 text-white px-5 py-2 rounded"
+>
+Logout
+</button>
+
+</div>
+
+<!-- STATS -->
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+
+<div class="bg-white p-5 rounded shadow">
+
+<h3 class="text-gray-500">
+Products
+</h3>
+
+<p
+id="totalProducts"
+class="text-3xl font-bold text-green-700"
+>
+0
+</p>
+
+</div>
+
+<div class="bg-white p-5 rounded shadow">
+
+<h3 class="text-gray-500">
+Offers
+</h3>
+
+<p
+id="totalOffers"
+class="text-3xl font-bold text-red-600"
+>
+0
+</p>
+
+</div>
+
+<div class="bg-white p-5 rounded shadow">
+
+<h3 class="text-gray-500">
+Orders
+</h3>
+
+<p
+id="totalOrders"
+class="text-3xl font-bold text-blue-600"
+>
+0
+</p>
+
+</div>
+
+<div class="bg-white p-5 rounded shadow">
+
+<h3 class="text-gray-500">
+Customers
+</h3>
+
+<p
+id="totalCustomers"
+class="text-3xl font-bold text-purple-600"
+>
+0
+</p>
+
+</div>
+
+</div>
+
+<!-- CUSTOMER SEARCH -->
+
+<div class="bg-white p-5 rounded shadow mb-8">
+
+<h3 class="text-2xl font-bold mb-4">
+Customer Search
+</h3>
+
+<input
+id="searchPhone"
+type="text"
+placeholder="Enter Customer Phone"
+class="border p-3 w-full rounded mb-3"
+/>
+
+<button
+onclick="searchCustomer()"
+class="bg-blue-600 text-white px-5 py-3 rounded"
+>
+Search Customer
+</button>
+
+<div
+id="customerResult"
+class="mt-5"
+></div>
+
+</div>
 
 <!-- PRODUCT SECTION -->
 
@@ -128,13 +245,25 @@ Add Offer
 
 <!-- OFFER LIST -->
 
-<div class="bg-white p-5 rounded shadow">
+<div class="bg-white p-5 rounded shadow mb-8">
 
 <h3 class="text-2xl font-bold mb-4">
 Offer List
 </h3>
 
 <div id="offerList"></div>
+
+</div>
+
+<!-- ORDERS SECTION -->
+
+<div class="bg-white p-5 rounded shadow">
+
+<h3 class="text-2xl font-bold mb-4">
+Latest Orders
+</h3>
+
+<div id="ordersList"></div>
 
 </div>
 
@@ -166,8 +295,114 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+const auth = firebase.auth();
+
+auth.onAuthStateChanged(user=>{
+
+if(!user){
+
+window.location.href = "login.html";
+
+}
+
+});
+
 loadProducts();
 loadOffers();
+loadStats();
+loadOrders();
+
+
+// LOGOUT
+
+async function logout(){
+
+await auth.signOut();
+
+window.location.href = "login.html";
+
+}
+
+
+// LOAD STATS
+
+async function loadStats(){
+
+const products =
+await db.collection("products").get();
+
+document.getElementById("totalProducts").innerText =
+products.size;
+
+const offers =
+await db.collection("offers").get();
+
+document.getElementById("totalOffers").innerText =
+offers.size;
+
+const orders =
+await db.collection("orders").get();
+
+document.getElementById("totalOrders").innerText =
+orders.size;
+
+let customers = new Set();
+
+orders.forEach(doc=>{
+
+const data = doc.data();
+
+if(data.phone){
+
+customers.add(data.phone);
+
+}
+
+});
+
+document.getElementById("totalCustomers").innerText =
+customers.size;
+
+}
+
+
+// CUSTOMER SEARCH
+
+async function searchCustomer(){
+
+const phone =
+document.getElementById("searchPhone").value;
+
+const snapshot =
+await db.collection("orders")
+.where("phone","==",phone)
+.get();
+
+const totalOrders = snapshot.size;
+
+const gift =
+totalOrders >= 20
+? "🎁 Eligible For Gift"
+: "No Gift Yet";
+
+document.getElementById("customerResult").innerHTML = `
+
+<div class="bg-gray-100 p-4 rounded">
+
+<p class="text-xl">
+Total Orders:
+<b>${totalOrders}</b>
+</p>
+
+<p class="mt-2 text-lg">
+${gift}
+</p>
+
+</div>
+
+`;
+
+}
 
 
 // ADD PRODUCT
@@ -202,10 +437,13 @@ image:image
 alert("Product Added");
 
 document.getElementById("productName").value = "";
+
 document.getElementById("productPrice").value = "";
+
 document.getElementById("productImage").value = "";
 
 loadProducts();
+loadStats();
 
 }
 
@@ -274,6 +512,7 @@ async function deleteProduct(id){
 await db.collection("products").doc(id).delete();
 
 loadProducts();
+loadStats();
 
 }
 
@@ -304,6 +543,7 @@ alert("Offer Added");
 document.getElementById("offerText").value = "";
 
 loadOffers();
+loadStats();
 
 }
 
@@ -355,6 +595,60 @@ async function deleteOffer(id){
 await db.collection("offers").doc(id).delete();
 
 loadOffers();
+loadStats();
+
+}
+
+
+// LOAD ORDERS
+
+async function loadOrders(){
+
+const snapshot =
+await db.collection("orders").get();
+
+let html = "";
+
+snapshot.forEach(doc=>{
+
+const data = doc.data();
+
+html += `
+
+<div class="border p-4 rounded mb-3">
+
+<p>
+<b>Name:</b>
+${data.name || "No Name"}
+</p>
+
+<p>
+<b>Phone:</b>
+${data.phone || "No Phone"}
+</p>
+
+<p>
+<b>Address:</b>
+${data.address || "No Address"}
+</p>
+
+<p>
+<b>Status:</b>
+
+<span class="text-orange-600 font-bold">
+${data.status || "Pending"}
+</span>
+
+</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("ordersList").innerHTML =
+html;
 
 }
 
