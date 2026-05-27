@@ -5,23 +5,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FAST_Grocery Admin Dashboard</title>
+<title>FAST_Grocery Professional Admin</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 </head>
 
 <body class="bg-gray-100">
 
-<div class="flex flex-col md:flex-row min-h-screen">
+<div class="flex">
 
 <!-- SIDEBAR -->
 
-<div class="w-full md:w-64 bg-green-700 text-white p-5">
+<div class="w-64 bg-green-700 min-h-screen text-white p-5">
 
 <h1 class="text-3xl font-bold mb-10">
 FAST_Grocery
@@ -34,15 +33,15 @@ Dashboard
 </li>
 
 <li class="bg-green-800 p-3 rounded">
+Orders
+</li>
+
+<li class="bg-green-800 p-3 rounded">
 Products
 </li>
 
 <li class="bg-green-800 p-3 rounded">
 Offers
-</li>
-
-<li class="bg-green-800 p-3 rounded">
-Orders
 </li>
 
 <li class="bg-green-800 p-3 rounded">
@@ -57,112 +56,76 @@ Customers
 
 <div class="flex-1 p-6">
 
-<!-- TOP -->
-
-<div class="flex justify-between items-center mb-8">
-
-<h2 class="text-3xl font-bold">
-Admin Dashboard
+<h2 class="text-4xl font-bold mb-8">
+Professional Admin Dashboard
 </h2>
-
-<button
-onclick="logout()"
-class="bg-red-600 text-white px-5 py-2 rounded"
->
-Logout
-</button>
-
-</div>
 
 <!-- STATS -->
 
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="grid md:grid-cols-4 gap-5 mb-10">
 
-<div class="bg-white p-5 rounded shadow">
-
-<h3 class="text-gray-500">
-Products
-</h3>
-
-<p id="totalProducts"
-class="text-3xl font-bold text-green-700">
+<div class="bg-white p-6 rounded-2xl shadow">
+<h3 class="text-gray-500 mb-2">Total Orders</h3>
+<p id="totalOrders" class="text-4xl font-bold text-green-700">
 0
 </p>
-
 </div>
 
-<div class="bg-white p-5 rounded shadow">
-
-<h3 class="text-gray-500">
-Offers
-</h3>
-
-<p id="totalOffers"
-class="text-3xl font-bold text-red-600">
+<div class="bg-white p-6 rounded-2xl shadow">
+<h3 class="text-gray-500 mb-2">Pending</h3>
+<p id="pendingOrders" class="text-4xl font-bold text-yellow-500">
 0
 </p>
-
 </div>
 
-<div class="bg-white p-5 rounded shadow">
-
-<h3 class="text-gray-500">
-Orders
-</h3>
-
-<p id="totalOrders"
-class="text-3xl font-bold text-blue-600">
+<div class="bg-white p-6 rounded-2xl shadow">
+<h3 class="text-gray-500 mb-2">Completed</h3>
+<p id="completedOrders" class="text-4xl font-bold text-blue-600">
 0
 </p>
-
 </div>
 
-<div class="bg-white p-5 rounded shadow">
-
-<h3 class="text-gray-500">
-Customers
-</h3>
-
-<p id="totalCustomers"
-class="text-3xl font-bold text-purple-600">
+<div class="bg-white p-6 rounded-2xl shadow">
+<h3 class="text-gray-500 mb-2">Customers</h3>
+<p id="customers" class="text-4xl font-bold text-red-600">
 0
 </p>
-
 </div>
 
 </div>
 
 <!-- CUSTOMER SEARCH -->
 
-<div class="bg-white p-5 rounded shadow mb-8">
+<div class="bg-white p-6 rounded-2xl shadow mb-10">
 
-<h3 class="text-2xl font-bold mb-4">
+<h3 class="text-2xl font-bold mb-5">
 Customer Search
 </h3>
 
 <input
-id="searchPhone"
 type="text"
+id="searchPhone"
 placeholder="Enter Customer Phone"
-class="border p-3 w-full rounded mb-3"
+class="border p-4 rounded-xl w-full"
 />
 
 <button
 onclick="searchCustomer()"
-class="bg-blue-600 text-white px-5 py-3 rounded w-full"
->
+class="bg-green-700 text-white px-6 py-3 rounded-xl mt-4">
+
 Search Customer
+
 </button>
 
-<div id="customerResult" class="mt-5"></div>
+<div id="customerResult" class="mt-6"></div>
 
 </div>
 
-<!-- ADD PRODUCT -->
+<!-- PRODUCT SECTION -->
 
-<div class="bg-white p-5 rounded shadow mb-8">
+<div class="bg-white p-6 rounded-2xl shadow mb-10">
 
-<h3 class="text-2xl font-bold mb-4">
+<h3 class="text-2xl font-bold mb-5">
 Add Product
 </h3>
 
@@ -170,37 +133,31 @@ Add Product
 id="productName"
 type="text"
 placeholder="Product Name"
-class="border p-3 w-full rounded mb-3"
+class="border p-4 rounded-xl w-full mb-4"
 />
 
 <input
 id="productPrice"
-type="number"
-placeholder="Product Price"
-class="border p-3 w-full rounded mb-3"
-/>
-
-<input
-id="productImage"
 type="text"
-placeholder="Product Image URL"
-class="border p-3 w-full rounded mb-3"
+placeholder="Product Price"
+class="border p-4 rounded-xl w-full mb-4"
 />
 
 <button
 onclick="addProduct()"
-class="bg-green-700 text-white px-5 py-3 rounded w-full"
->
+class="bg-green-700 text-white px-6 py-3 rounded-xl">
+
 Add Product
+
 </button>
 
 </div>
 
 <!-- PRODUCT LIST -->
 
-<div class="bg-white p-5 rounded shadow mb-8">
+<div class="bg-white p-6 rounded-2xl shadow mb-10">
 
-<h3 class="text-2xl font-bold mb-4">
+<h3 class="text-2xl font-bold mb-5">
 Product List
 </h3>
 
@@ -208,11 +165,11 @@ Product List
 
 </div>
 
-<!-- ADD OFFER -->
+<!-- OFFER SECTION -->
 
-<div class="bg-white p-5 rounded shadow mb-8">
+<div class="bg-white p-6 rounded-2xl shadow mb-10">
 
-<h3 class="text-2xl font-bold mb-4">
+<h3 class="text-2xl font-bold mb-5">
 Add Offer
 </h3>
 
@@ -220,23 +177,24 @@ Add Offer
 id="offerText"
 type="text"
 placeholder="Offer Text"
-class="border p-3 w-full rounded mb-3"
+class="border p-4 rounded-xl w-full mb-4"
 />
 
 <button
 onclick="addOffer()"
-class="bg-red-600 text-white px-5 py-3 rounded w-full"
->
+class="bg-red-600 text-white px-6 py-3 rounded-xl">
+
 Add Offer
+
 </button>
 
 </div>
 
 <!-- OFFER LIST -->
 
-<div class="bg-white p-5 rounded shadow mb-8">
+<div class="bg-white p-6 rounded-2xl shadow mb-10">
 
-<h3 class="text-2xl font-bold mb-4">
+<h3 class="text-2xl font-bold mb-5">
 Offer List
 </h3>
 
@@ -244,11 +202,11 @@ Offer List
 
 </div>
 
-<!-- LIVE ORDERS -->
+<!-- ORDER LIST -->
 
-<div class="bg-white p-5 rounded shadow">
+<div class="bg-white p-6 rounded-2xl shadow">
 
-<h3 class="text-2xl font-bold mb-4">
+<h3 class="text-2xl font-bold mb-5">
 Live Orders
 </h3>
 
@@ -260,6 +218,8 @@ Live Orders
 
 </div>
 
+<!-- FIREBASE -->
+
 <script>
 
 const firebaseConfig = {
@@ -270,7 +230,7 @@ authDomain: "fast-grocery-3322b.firebaseapp.com",
 
 projectId: "fast-grocery-3322b",
 
-storageBucket: "fast-grocery-3322b.firebasestorage.app",
+storageBucket: "fast-grocery-3322b.appspot.com",
 
 messagingSenderId: "878961129693",
 
@@ -284,50 +244,18 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-const auth = firebase.auth();
+</script>
 
-auth.onAuthStateChanged(user=>{
+<!-- LOAD DASHBOARD -->
 
-if(!user){
+<script>
 
-window.location.href = "login.html";
-
-}
-
-});
-
-loadStats();
+loadDashboard();
 loadProducts();
 loadOffers();
 loadOrders();
 
-
-// LOGOUT
-
-async function logout(){
-
-await auth.signOut();
-
-window.location.href = "login.html";
-
-}
-
-
-// LOAD STATS
-
-async function loadStats(){
-
-const products =
-await db.collection("products").get();
-
-document.getElementById("totalProducts").innerText =
-products.size;
-
-const offers =
-await db.collection("offers").get();
-
-document.getElementById("totalOffers").innerText =
-offers.size;
+async function loadDashboard(){
 
 const orders =
 await db.collection("orders").get();
@@ -335,27 +263,41 @@ await db.collection("orders").get();
 document.getElementById("totalOrders").innerText =
 orders.size;
 
+let pending = 0;
+let completed = 0;
+
 let customers = new Set();
 
 orders.forEach(doc=>{
 
 const data = doc.data();
 
-if(data.phone){
-
 customers.add(data.phone);
 
+if(data.status == "Completed"){
+completed++;
+}else{
+pending++;
 }
 
 });
 
-document.getElementById("totalCustomers").innerText =
+document.getElementById("pendingOrders").innerText =
+pending;
+
+document.getElementById("completedOrders").innerText =
+completed;
+
+document.getElementById("customers").innerText =
 customers.size;
 
 }
 
+</script>
 
-// CUSTOMER SEARCH
+<!-- CUSTOMER SEARCH -->
+
+<script>
 
 async function searchCustomer(){
 
@@ -367,23 +309,28 @@ await db.collection("orders")
 .where("phone","==",phone)
 .get();
 
-const totalOrders = snapshot.size;
+let totalOrders = snapshot.size;
 
-const gift =
+let gift =
 totalOrders >= 20
-? "🎁 Eligible For Gift"
+? "🎁 Eligible For Special Gift"
 : "No Gift Yet";
 
 document.getElementById("customerResult").innerHTML = `
 
-<div class="bg-gray-100 p-4 rounded">
+<div class="bg-gray-100 p-5 rounded-2xl">
 
-<p class="text-xl">
-Total Orders:
+<p class="text-xl mb-3">
+📞 Phone:
+<b>${phone}</b>
+</p>
+
+<p class="text-xl mb-3">
+🛒 Total Orders:
 <b>${totalOrders}</b>
 </p>
 
-<p class="mt-2 text-lg">
+<p class="text-xl text-green-700 font-bold">
 ${gift}
 </p>
 
@@ -393,8 +340,11 @@ ${gift}
 
 }
 
+</script>
 
-// ADD PRODUCT
+<!-- PRODUCTS -->
+
+<script>
 
 async function addProduct(){
 
@@ -404,40 +354,18 @@ document.getElementById("productName").value;
 const price =
 document.getElementById("productPrice").value;
 
-const image =
-document.getElementById("productImage").value;
-
-if(name=="" || price=="" || image==""){
-
-alert("Fill All Fields");
-
-return;
-
-}
-
 await db.collection("products").add({
 
 name:name,
-price:price,
-image:image
+price:price
 
 });
 
 alert("Product Added");
 
-document.getElementById("productName").value = "";
-
-document.getElementById("productPrice").value = "";
-
-document.getElementById("productImage").value = "";
-
 loadProducts();
-loadStats();
 
 }
-
-
-// LOAD PRODUCTS
 
 async function loadProducts(){
 
@@ -452,34 +380,26 @@ const data = doc.data();
 
 html += `
 
-<div class="border p-4 rounded mb-4 flex justify-between items-center">
-
-<div class="flex items-center gap-4">
-
-<img
-src="${data.image}"
-class="w-20 h-20 object-cover rounded"
-/>
+<div class="border p-5 rounded-2xl mb-4 flex justify-between">
 
 <div>
 
-<h4 class="text-xl font-bold">
+<h3 class="text-2xl font-bold">
 ${data.name}
-</h4>
+</h3>
 
-<p class="text-lg text-green-700 font-semibold">
+<p class="text-lg">
 ৳ ${data.price}
 </p>
 
 </div>
 
-</div>
-
 <button
 onclick="deleteProduct('${doc.id}')"
-class="bg-red-500 text-white px-4 py-2 rounded"
->
+class="bg-red-500 text-white px-5 py-2 rounded-xl">
+
 Delete
+
 </button>
 
 </div>
@@ -493,35 +413,24 @@ html;
 
 }
 
-
-// DELETE PRODUCT
-
 async function deleteProduct(id){
 
-await db.collection("products")
-.doc(id)
-.delete();
+await db.collection("products").doc(id).delete();
 
 loadProducts();
-loadStats();
 
 }
 
+</script>
 
-// ADD OFFER
+<!-- OFFERS -->
+
+<script>
 
 async function addOffer(){
 
 const text =
 document.getElementById("offerText").value;
-
-if(text==""){
-
-alert("Enter Offer");
-
-return;
-
-}
 
 await db.collection("offers").add({
 
@@ -531,15 +440,9 @@ text:text
 
 alert("Offer Added");
 
-document.getElementById("offerText").value = "";
-
 loadOffers();
-loadStats();
 
 }
-
-
-// LOAD OFFERS
 
 async function loadOffers(){
 
@@ -554,17 +457,18 @@ const data = doc.data();
 
 html += `
 
-<div class="border p-4 rounded mb-3 flex justify-between items-center">
+<div class="border p-5 rounded-2xl mb-4 flex justify-between">
 
-<h4 class="text-xl font-bold text-red-600">
+<h3 class="text-xl font-bold text-red-600">
 ${data.text}
-</h4>
+</h3>
 
 <button
 onclick="deleteOffer('${doc.id}')"
-class="bg-red-500 text-white px-4 py-2 rounded"
->
+class="bg-red-500 text-white px-5 py-2 rounded-xl">
+
 Delete
+
 </button>
 
 </div>
@@ -578,22 +482,19 @@ html;
 
 }
 
-
-// DELETE OFFER
-
 async function deleteOffer(id){
 
-await db.collection("offers")
-.doc(id)
-.delete();
+await db.collection("offers").doc(id).delete();
 
 loadOffers();
-loadStats();
 
 }
 
+</script>
 
-// LOAD ORDERS
+<!-- LIVE ORDERS -->
+
+<script>
 
 async function loadOrders(){
 
@@ -610,70 +511,58 @@ const data = doc.data();
 
 html += `
 
-<div class="border p-4 rounded mb-4 bg-gray-50">
+<div class="border p-5 rounded-2xl mb-5">
 
-<div class="flex justify-between items-start gap-4">
+<div class="grid md:grid-cols-2 gap-5">
 
 <div>
 
-<p class="mb-1">
-<b>👤 Name:</b>
-${data.name || "No Name"}
+<p class="mb-2">
+👤 <b>${data.name}</b>
 </p>
 
-<p class="mb-1">
-<b>📞 Phone:</b>
-${data.phone || "No Phone"}
+<p class="mb-2">
+📞 ${data.phone}
 </p>
 
-<p class="mb-1">
-<b>📍 Address:</b>
-${data.address || "No Address"}
+<p class="mb-2">
+📍 ${data.address}
 </p>
 
-<p class="mb-1">
-<b>🛒 Items:</b>
-${data.items || "No Items"}
-</p>
-
-<p class="mb-1">
-<b>💰 Total:</b>
-৳ ${data.total || "0"}
-</p>
-
-<p class="mb-1">
-<b>📦 Status:</b>
-
-<span class="
-${data.status=="Completed"
-? "text-green-600"
-: "text-orange-600"}
-font-bold
-">
-
-${data.status || "Pending"}
-
-</span>
-
+<p class="mb-2">
+📦 ${data.product}
 </p>
 
 </div>
 
-<div class="flex flex-col gap-2">
+<div>
+
+<p class="mb-3">
+Status:
+<span class="font-bold text-blue-600">
+${data.status}
+</span>
+</p>
+
+<div class="flex gap-3">
 
 <button
 onclick="completeOrder('${doc.id}')"
-class="bg-green-600 text-white px-4 py-2 rounded"
->
-Complete
+class="bg-blue-600 text-white px-5 py-2 rounded-xl">
+
+Completed
+
 </button>
 
 <button
 onclick="deleteOrder('${doc.id}')"
-class="bg-red-600 text-white px-4 py-2 rounded"
->
+class="bg-red-600 text-white px-5 py-2 rounded-xl">
+
 Delete
+
 </button>
+
+</div>
 
 </div>
 
@@ -690,9 +579,6 @@ html;
 
 }
 
-
-// COMPLETE ORDER
-
 async function completeOrder(id){
 
 await db.collection("orders")
@@ -704,11 +590,9 @@ status:"Completed"
 });
 
 loadOrders();
+loadDashboard();
 
 }
-
-
-// DELETE ORDER
 
 async function deleteOrder(id){
 
@@ -717,7 +601,7 @@ await db.collection("orders")
 .delete();
 
 loadOrders();
-loadStats();
+loadDashboard();
 
 }
 
