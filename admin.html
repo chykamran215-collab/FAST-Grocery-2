@@ -474,12 +474,6 @@ image:image
 
 alert("Product Added Successfully");
 
-document.getElementById("productName").value = "";
-
-document.getElementById("productPrice").value = "";
-
-document.getElementById("productImage").value = "";
-
 loadProducts();
 
 }
@@ -499,17 +493,9 @@ html += `
 
 <div class="border p-5 rounded-2xl mb-4">
 
-<div class="grid md:grid-cols-2 gap-5 items-center">
-
-<div>
-
 <img
 src="${data.image}"
-class="w-full h-52 object-cover rounded-2xl">
-
-</div>
-
-<div>
+class="w-full h-52 object-cover rounded-2xl mb-4">
 
 <h3 class="text-2xl font-bold mb-3">
 ${data.name}
@@ -526,10 +512,6 @@ class="bg-red-500 text-white px-5 py-2 rounded-xl">
 Delete
 
 </button>
-
-</div>
-
-</div>
 
 </div>
 
@@ -568,8 +550,6 @@ text:text
 });
 
 alert("Offer Added");
-
-document.getElementById("offerText").value = "";
 
 loadOffers();
 
@@ -642,13 +622,13 @@ const data = doc.data();
 
 html += `
 
-<div class="border p-5 rounded-2xl mb-5">
+<div class="border p-5 rounded-2xl mb-5 bg-gray-50">
 
 <div class="grid md:grid-cols-2 gap-5">
 
 <div>
 
-<p class="mb-2">
+<p class="mb-2 text-lg">
 👤 <b>${data.name}</b>
 </p>
 
@@ -668,22 +648,40 @@ html += `
 
 <div>
 
-<p class="mb-3">
-Status:
+<p class="mb-3 text-lg">
+Current Status:
 <span class="font-bold text-blue-600">
 ${data.status || "Pending"}
 </span>
 </p>
 
+<select
+onchange="updateStatus('${doc.id}',this.value)"
+class="border-2 border-gray-300 p-3 rounded-xl w-full mb-4">
+
+<option value="Pending"
+${data.status=="Pending"?"selected":""}>
+Pending
+</option>
+
+<option value="Processing"
+${data.status=="Processing"?"selected":""}>
+Processing
+</option>
+
+<option value="Delivered"
+${data.status=="Delivered"?"selected":""}>
+Delivered
+</option>
+
+<option value="Cancelled"
+${data.status=="Cancelled"?"selected":""}>
+Cancelled
+</option>
+
+</select>
+
 <div class="flex gap-3">
-
-<button
-onclick="completeOrder('${doc.id}')"
-class="bg-blue-600 text-white px-5 py-2 rounded-xl">
-
-Completed
-
-</button>
 
 <button
 onclick="deleteOrder('${doc.id}')"
@@ -710,13 +708,13 @@ html;
 
 }
 
-async function completeOrder(id){
+async function updateStatus(id,status){
 
 await db.collection("orders")
 .doc(id)
 .update({
 
-status:"Completed"
+status:status
 
 });
 
