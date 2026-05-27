@@ -138,6 +138,20 @@ WhatsApp Order
 
 </div>
 
+<!-- SEARCH BAR -->
+
+<div class="mb-10">
+
+<input
+type="text"
+id="searchInput"
+placeholder="🔍 পণ্য খুঁজুন..."
+class="w-full border-2 border-green-300 rounded-2xl p-4 text-lg focus:outline-none focus:border-green-600"
+onkeyup="searchProducts()"
+/>
+
+</div>
+
 <div id="productContainer"
 class="grid md:grid-cols-3 gap-8">
 
@@ -311,23 +325,37 @@ alert(product + " cart এ যোগ হয়েছে 🛒");
 
 <script>
 
+let allProducts = [];
+
 async function loadProducts(){
 
 const snapshot =
 await db.collection("products").get();
 
-let html = "";
+allProducts = [];
 
 snapshot.forEach(doc=>{
 
-const data = doc.data();
+allProducts.push(doc.data());
+
+});
+
+displayProducts(allProducts);
+
+}
+
+function displayProducts(products){
+
+let html = "";
+
+products.forEach(data=>{
 
 html += `
 
 <div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
 
 <img
-src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop"
+src="${data.image || 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop'}"
 class="w-full h-64 object-cover">
 
 <div class="p-6">
@@ -365,6 +393,24 @@ Add To Cart
 });
 
 document.getElementById("productContainer").innerHTML = html;
+
+}
+
+function searchProducts(){
+
+const searchValue =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const filteredProducts =
+allProducts.filter(product =>
+
+product.name.toLowerCase().includes(searchValue)
+
+);
+
+displayProducts(filteredProducts);
 
 }
 
