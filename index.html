@@ -5,12 +5,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FAST_Grocery | Sylhet Online Grocery Shop</title>
+<title>FAST_Grocery | Professional Grocery Shop</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <style>
 
@@ -30,19 +35,13 @@ background-position:center;
 
 </style>
 
-<!-- Firebase -->
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-100 text-gray-800">
 
 <!-- NAVBAR -->
 
-<nav class="bg-green-600 text-white shadow-lg sticky top-0 z-50">
+<nav class="bg-green-600 text-white sticky top-0 z-50 shadow-lg">
 
 <div class="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
 
@@ -50,18 +49,17 @@ background-position:center;
 FAST_Grocery
 </h1>
 
-<div class="bg-white text-green-700 px-4 py-2 rounded-xl font-bold shadow-lg">
+<div class="flex gap-4">
+
+<div class="bg-white text-green-700 px-4 py-2 rounded-xl font-bold">
 🛒 Cart:
 <span id="cart-count">0</span>
 </div>
 
-<div class="space-x-5 hidden md:block">
-
-<a href="#home" class="hover:text-yellow-300">Home</a>
-
-<a href="#products" class="hover:text-yellow-300">Products</a>
-
-<a href="#contact" class="hover:text-yellow-300">Contact</a>
+<div class="bg-white text-red-600 px-4 py-2 rounded-xl font-bold">
+❤️ Wishlist:
+<span id="wishlist-count">0</span>
+</div>
 
 </div>
 
@@ -71,7 +69,7 @@ FAST_Grocery
 
 <!-- HERO -->
 
-<section id="home" class="hero text-white min-h-screen flex items-center">
+<section class="hero min-h-screen flex items-center text-white">
 
 <div class="max-w-7xl mx-auto px-6">
 
@@ -88,33 +86,13 @@ FAST_Grocery
 
 </p>
 
-<div class="flex flex-wrap gap-4">
+<a
+href="#products"
+class="bg-green-500 hover:bg-green-700 px-8 py-4 rounded-xl text-lg font-bold">
 
-<a href="https://wa.me/8801346234146"
-
-class="bg-green-500 hover:bg-green-700 px-8 py-4 rounded-xl text-lg font-semibold transition">
-
-WhatsApp Order
+Shop Now
 
 </a>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- OFFERS -->
-
-<section class="py-10 bg-red-600 text-white">
-
-<div class="max-w-7xl mx-auto px-6">
-
-<h2 class="text-3xl font-bold mb-6 text-center">
-🔥 Today's Offers
-</h2>
-
-<div id="offerContainer" class="grid md:grid-cols-2 gap-5"></div>
 
 </div>
 
@@ -122,23 +100,23 @@ WhatsApp Order
 
 <!-- PRODUCTS -->
 
-<section id="products" class="py-20 bg-gray-100">
+<section id="products" class="py-20">
 
 <div class="max-w-7xl mx-auto px-6">
 
-<div class="text-center mb-14">
+<div class="text-center mb-10">
 
 <h2 class="text-4xl font-bold text-green-700 mb-4">
 জনপ্রিয় পণ্যসমূহ
 </h2>
 
 <p class="text-gray-600">
-লাইভ প্রোডাক্ট এখন Admin Dashboard থেকে নিয়ন্ত্রণ করা যাবে
+Admin Dashboard থেকে লাইভ নিয়ন্ত্রণ করা যাবে
 </p>
 
 </div>
 
-<!-- SEARCH BAR -->
+<!-- SEARCH -->
 
 <div class="mb-10">
 
@@ -146,13 +124,14 @@ WhatsApp Order
 type="text"
 id="searchInput"
 placeholder="🔍 পণ্য খুঁজুন..."
-class="w-full border-2 border-green-300 rounded-2xl p-4 text-lg focus:outline-none focus:border-green-600"
+class="w-full border-2 border-green-300 rounded-2xl p-4 text-lg"
 onkeyup="searchProducts()"
 />
 
 </div>
 
-<div id="productContainer"
+<div
+id="productContainer"
 class="grid md:grid-cols-3 gap-8">
 
 </div>
@@ -161,59 +140,66 @@ class="grid md:grid-cols-3 gap-8">
 
 </section>
 
-<!-- ORDER FORM -->
+<!-- CART PAGE -->
 
-<section class="py-20 bg-green-50">
+<section class="py-20 bg-white">
 
-<div class="max-w-4xl mx-auto px-6">
+<div class="max-w-6xl mx-auto px-6">
 
-<div class="bg-white rounded-3xl shadow-2xl p-10">
-
-<div class="text-center mb-10">
-
-<h2 class="text-4xl font-bold text-green-700 mb-4">
-অর্ডার করুন
+<h2 class="text-4xl font-bold text-green-700 mb-10 text-center">
+🛒 Cart Items
 </h2>
+
+<div id="cartItems" class="grid md:grid-cols-2 gap-6"></div>
 
 </div>
 
-<form id="orderForm" class="space-y-6">
+</section>
+
+<!-- WISHLIST -->
+
+<section class="py-20 bg-pink-50">
+
+<div class="max-w-6xl mx-auto px-6">
+
+<h2 class="text-4xl font-bold text-red-600 mb-10 text-center">
+❤️ Wishlist
+</h2>
+
+<div id="wishlistItems" class="grid md:grid-cols-2 gap-6"></div>
+
+</div>
+
+</section>
+
+<!-- ORDER TRACKING -->
+
+<section class="py-20 bg-white">
+
+<div class="max-w-4xl mx-auto px-6">
+
+<div class="bg-gray-100 p-10 rounded-3xl shadow-xl">
+
+<h2 class="text-4xl font-bold text-center text-green-700 mb-8">
+📦 Order Tracking
+</h2>
 
 <input
 type="text"
-id="name"
-placeholder="আপনার নাম"
-class="w-full border-2 border-gray-200 rounded-xl p-4"
+id="trackingPhone"
+placeholder="মোবাইল নাম্বার লিখুন"
+class="w-full border-2 border-gray-300 rounded-xl p-4 mb-5"
 />
-
-<input
-type="tel"
-id="phone"
-placeholder="মোবাইল নাম্বার"
-class="w-full border-2 border-gray-200 rounded-xl p-4"
-/>
-
-<textarea
-id="address"
-rows="4"
-placeholder="ঠিকানা"
-class="w-full border-2 border-gray-200 rounded-xl p-4"></textarea>
-
-<textarea
-id="product"
-rows="4"
-placeholder="কি অর্ডার করতে চান"
-class="w-full border-2 border-gray-200 rounded-xl p-4"></textarea>
 
 <button
-type="submit"
-class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-2xl text-xl font-bold">
+onclick="trackOrder()"
+class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl text-xl font-bold">
 
-WhatsApp এ অর্ডার পাঠান
+Track Order
 
 </button>
 
-</form>
+<div id="trackingResult" class="mt-8"></div>
 
 </div>
 
@@ -223,7 +209,7 @@ WhatsApp এ অর্ডার পাঠান
 
 <!-- CONTACT -->
 
-<section id="contact" class="py-20 bg-white">
+<section class="py-20 bg-green-50">
 
 <div class="max-w-5xl mx-auto px-6 text-center">
 
@@ -233,17 +219,17 @@ WhatsApp এ অর্ডার পাঠান
 
 <div class="grid md:grid-cols-3 gap-8">
 
-<div class="bg-green-50 p-8 rounded-2xl shadow">
+<div class="bg-white p-8 rounded-2xl shadow">
 <h3 class="text-2xl font-bold mb-3">Phone</h3>
 <p>01346234146</p>
 </div>
 
-<div class="bg-green-50 p-8 rounded-2xl shadow">
+<div class="bg-white p-8 rounded-2xl shadow">
 <h3 class="text-2xl font-bold mb-3">Email</h3>
 <p>fastgrocery99@gmail.com</p>
 </div>
 
-<div class="bg-green-50 p-8 rounded-2xl shadow">
+<div class="bg-white p-8 rounded-2xl shadow">
 <h3 class="text-2xl font-bold mb-3">Payment</h3>
 <p>bKash / Nagad</p>
 </div>
@@ -263,17 +249,6 @@ WhatsApp এ অর্ডার পাঠান
 </p>
 
 </footer>
-
-<!-- WHATSAPP FLOAT -->
-
-<a
-href="https://wa.me/8801346234146"
-target="_blank"
-class="fixed bottom-5 right-5 bg-green-500 text-white p-4 rounded-full shadow-2xl z-50">
-
-💬
-
-</a>
 
 <!-- FIREBASE -->
 
@@ -303,29 +278,15 @@ const db = firebase.firestore();
 
 </script>
 
-<!-- CART -->
-
-<script>
-
-let cart = 0;
-
-function addToCart(product){
-
-cart++;
-
-document.getElementById('cart-count').innerText = cart;
-
-alert(product + " cart এ যোগ হয়েছে 🛒");
-
-}
-
-</script>
-
-<!-- LOAD PRODUCTS -->
+<!-- PRODUCT SYSTEM -->
 
 <script>
 
 let allProducts = [];
+
+let cart = [];
+
+let wishlist = [];
 
 async function loadProducts(){
 
@@ -352,7 +313,7 @@ products.forEach(data=>{
 
 html += `
 
-<div class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+<div class="bg-white rounded-3xl shadow-xl overflow-hidden">
 
 <img
 src="${data.image || 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop'}"
@@ -364,21 +325,25 @@ class="w-full h-64 object-cover">
 ${data.name}
 </h3>
 
-<p class="text-gray-600 mb-4">
-Fresh Grocery Product
+<p class="text-green-700 text-2xl font-bold mb-5">
+৳ ${data.price}
 </p>
 
-<div class="flex justify-between items-center">
-
-<span class="text-2xl font-bold text-green-600">
-৳ ${data.price}
-</span>
+<div class="flex gap-3">
 
 <button
-onclick="addToCart('${data.name}')"
-class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl">
+onclick="addToCart('${data.name}','${data.price}','${data.image}')"
+class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl">
 
-Add To Cart
+🛒 Cart
+
+</button>
+
+<button
+onclick="addToWishlist('${data.name}','${data.price}','${data.image}')"
+class="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-xl">
+
+❤️ Wishlist
 
 </button>
 
@@ -418,28 +383,48 @@ loadProducts();
 
 </script>
 
-<!-- LOAD OFFERS -->
+<!-- CART -->
 
 <script>
 
-async function loadOffers(){
+function addToCart(name,price,image){
 
-const snapshot =
-await db.collection("offers").get();
+cart.push({
+
+name,
+price,
+image
+
+});
+
+document.getElementById("cart-count").innerText =
+cart.length;
+
+renderCart();
+
+}
+
+function renderCart(){
 
 let html = "";
 
-snapshot.forEach(doc=>{
-
-const data = doc.data();
+cart.forEach(item=>{
 
 html += `
 
-<div class="bg-white text-red-600 p-6 rounded-2xl shadow-xl">
+<div class="bg-gray-100 p-5 rounded-2xl shadow">
 
-<h3 class="text-2xl font-bold">
-${data.text}
+<img
+src="${item.image}"
+class="w-full h-52 object-cover rounded-xl mb-4">
+
+<h3 class="text-2xl font-bold mb-2">
+${item.name}
 </h3>
+
+<p class="text-green-700 text-xl font-bold">
+৳ ${item.price}
+</p>
 
 </div>
 
@@ -447,74 +432,135 @@ ${data.text}
 
 });
 
-document.getElementById("offerContainer").innerHTML = html;
+document.getElementById("cartItems").innerHTML =
+html;
 
 }
 
-loadOffers();
-
 </script>
 
-<!-- ORDER FORM -->
+<!-- WISHLIST -->
 
 <script>
 
-document.getElementById('orderForm')
-.addEventListener('submit', function(e){
+function addToWishlist(name,price,image){
 
-e.preventDefault();
+wishlist.push({
 
-let name =
-document.getElementById('name').value;
-
-let phone =
-document.getElementById('phone').value;
-
-let address =
-document.getElementById('address').value;
-
-let product =
-document.getElementById('product').value;
-
-let message =
-
-`🛒 FAST_Grocery Order
-
-👤 Name: ${name}
-
-📞 Phone: ${phone}
-
-📍 Address: ${address}
-
-📦 Product: ${product}`;
-
-db.collection("orders").add({
-
-name:name,
-phone:phone,
-address:address,
-product:product,
-status:"Pending",
-time:new Date()
-
-})
-.then(()=>{
-
-alert("Order Saved Successfully");
-
-})
-.catch((error)=>{
-
-console.log(error);
+name,
+price,
+image
 
 });
 
-let whatsappURL =
-`https://wa.me/8801346234146?text=${encodeURIComponent(message)}`;
+document.getElementById("wishlist-count").innerText =
+wishlist.length;
 
-window.open(whatsappURL,'_blank');
+renderWishlist();
+
+}
+
+function renderWishlist(){
+
+let html = "";
+
+wishlist.forEach(item=>{
+
+html += `
+
+<div class="bg-white p-5 rounded-2xl shadow">
+
+<img
+src="${item.image}"
+class="w-full h-52 object-cover rounded-xl mb-4">
+
+<h3 class="text-2xl font-bold mb-2">
+${item.name}
+</h3>
+
+<p class="text-red-600 text-xl font-bold">
+৳ ${item.price}
+</p>
+
+</div>
+
+`;
 
 });
+
+document.getElementById("wishlistItems").innerHTML =
+html;
+
+}
+
+</script>
+
+<!-- ORDER TRACKING -->
+
+<script>
+
+async function trackOrder(){
+
+const phone =
+document.getElementById("trackingPhone").value;
+
+const snapshot =
+await db.collection("orders")
+.where("phone","==",phone)
+.get();
+
+let html = "";
+
+if(snapshot.empty){
+
+html = `
+
+<div class="bg-red-100 text-red-600 p-5 rounded-2xl">
+
+কোন অর্ডার পাওয়া যায়নি
+
+</div>
+
+`;
+
+}else{
+
+snapshot.forEach(doc=>{
+
+const data = doc.data();
+
+html += `
+
+<div class="bg-green-100 p-5 rounded-2xl mb-5">
+
+<p class="mb-3">
+👤 <b>${data.name}</b>
+</p>
+
+<p class="mb-3">
+📦 ${data.product}
+</p>
+
+<p class="mb-3">
+📍 ${data.address}
+</p>
+
+<p class="text-xl font-bold text-blue-600">
+Status: ${data.status}
+</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("trackingResult").innerHTML =
+html;
+
+}
 
 </script>
 
