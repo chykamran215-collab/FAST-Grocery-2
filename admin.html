@@ -19,9 +19,10 @@
 
 <body class="bg-gray-100">
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 
-<div id="loginScreen" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+<div id="loginScreen"
+class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
 
 <div class="bg-white p-10 rounded-3xl shadow-2xl w-[90%] max-w-md">
 
@@ -33,14 +34,14 @@ FAST_Grocery Admin Login
 type="email"
 id="adminEmail"
 placeholder="Admin Email"
-class="border-2 border-gray-200 p-4 rounded-xl w-full mb-4"
+class="border p-4 rounded-xl w-full mb-4"
 />
 
 <input
 type="password"
 id="adminPassword"
 placeholder="Password"
-class="border-2 border-gray-200 p-4 rounded-xl w-full mb-6"
+class="border p-4 rounded-xl w-full mb-5"
 />
 
 <button
@@ -82,7 +83,11 @@ Products
 </li>
 
 <li class="bg-green-800 p-3 rounded">
-Offers
+Combo Offers
+</li>
+
+<li class="bg-green-800 p-3 rounded">
+Live Offers
 </li>
 
 <li class="bg-green-800 p-3 rounded">
@@ -114,28 +119,28 @@ Professional Admin Dashboard
 <div class="grid md:grid-cols-4 gap-5 mb-10">
 
 <div class="bg-white p-6 rounded-2xl shadow">
-<h3 class="text-gray-500 mb-2">Total Orders</h3>
+<h3>Total Orders</h3>
 <p id="totalOrders" class="text-4xl font-bold text-green-700">
 0
 </p>
 </div>
 
 <div class="bg-white p-6 rounded-2xl shadow">
-<h3 class="text-gray-500 mb-2">Pending</h3>
+<h3>Pending</h3>
 <p id="pendingOrders" class="text-4xl font-bold text-yellow-500">
 0
 </p>
 </div>
 
 <div class="bg-white p-6 rounded-2xl shadow">
-<h3 class="text-gray-500 mb-2">Completed</h3>
+<h3>Delivered</h3>
 <p id="completedOrders" class="text-4xl font-bold text-blue-600">
 0
 </p>
 </div>
 
 <div class="bg-white p-6 rounded-2xl shadow">
-<h3 class="text-gray-500 mb-2">Customers</h3>
+<h3>Customers</h3>
 <p id="customers" class="text-4xl font-bold text-red-600">
 0
 </p>
@@ -143,34 +148,7 @@ Professional Admin Dashboard
 
 </div>
 
-<!-- CUSTOMER SEARCH -->
-
-<div class="bg-white p-6 rounded-2xl shadow mb-10">
-
-<h3 class="text-2xl font-bold mb-5">
-Customer Search
-</h3>
-
-<input
-type="text"
-id="searchPhone"
-placeholder="Enter Customer Phone"
-class="border p-4 rounded-xl w-full"
-/>
-
-<button
-onclick="searchCustomer()"
-class="bg-green-700 text-white px-6 py-3 rounded-xl mt-4">
-
-Search Customer
-
-</button>
-
-<div id="customerResult" class="mt-6"></div>
-
-</div>
-
-<!-- PRODUCT SECTION -->
+<!-- PRODUCT ADD -->
 
 <div class="bg-white p-6 rounded-2xl shadow mb-10">
 
@@ -187,15 +165,15 @@ class="border p-4 rounded-xl w-full mb-4"
 
 <input
 id="productPrice"
-type="text"
-placeholder="Product Price"
+type="number"
+placeholder="Price"
 class="border p-4 rounded-xl w-full mb-4"
 />
 
 <input
 id="productImage"
 type="text"
-placeholder="Paste Product Image URL"
+placeholder="Image URL"
 class="border p-4 rounded-xl w-full mb-4"
 />
 
@@ -221,12 +199,68 @@ Product List
 
 </div>
 
-<!-- OFFER SECTION -->
+<!-- COMBO OFFER -->
 
 <div class="bg-white p-6 rounded-2xl shadow mb-10">
 
 <h3 class="text-2xl font-bold mb-5">
-Add Offer
+Add Combo Offer
+</h3>
+
+<input
+id="comboName"
+type="text"
+placeholder="Combo Name"
+class="border p-4 rounded-xl w-full mb-4"
+/>
+
+<input
+id="comboPrice"
+type="number"
+placeholder="Combo Price"
+class="border p-4 rounded-xl w-full mb-4"
+/>
+
+<input
+id="comboImage"
+type="text"
+placeholder="Combo Image URL"
+class="border p-4 rounded-xl w-full mb-4"
+/>
+
+<textarea
+id="comboItems"
+placeholder="Combo Items"
+class="border p-4 rounded-xl w-full mb-4"></textarea>
+
+<button
+onclick="addCombo()"
+class="bg-yellow-500 text-white px-6 py-3 rounded-xl">
+
+Add Combo
+
+</button>
+
+</div>
+
+<!-- COMBO LIST -->
+
+<div class="bg-white p-6 rounded-2xl shadow mb-10">
+
+<h3 class="text-2xl font-bold mb-5">
+Combo List
+</h3>
+
+<div id="comboList"></div>
+
+</div>
+
+<!-- LIVE OFFERS -->
+
+<div class="bg-white p-6 rounded-2xl shadow mb-10">
+
+<h3 class="text-2xl font-bold mb-5">
+Add Live Offer
 </h3>
 
 <input
@@ -281,15 +315,10 @@ Live Orders
 const firebaseConfig = {
 
 apiKey: "YOUR_API_KEY",
-
 authDomain: "YOUR_AUTH_DOMAIN",
-
 projectId: "YOUR_PROJECT_ID",
-
 storageBucket: "YOUR_STORAGE_BUCKET",
-
 messagingSenderId: "YOUR_SENDER_ID",
-
 appId: "YOUR_APP_ID"
 
 };
@@ -318,7 +347,7 @@ auth.signInWithEmailAndPassword(email,password)
 
 .then(()=>{
 
-document.getElementById("loginScreen").style.display = "none";
+document.getElementById("loginScreen").style.display="none";
 
 })
 
@@ -335,11 +364,11 @@ auth.onAuthStateChanged((user)=>{
 
 if(user){
 
-document.getElementById("loginScreen").style.display = "none";
+document.getElementById("loginScreen").style.display="none";
 
 }else{
 
-document.getElementById("loginScreen").style.display = "flex";
+document.getElementById("loginScreen").style.display="flex";
 
 }
 
@@ -359,8 +388,9 @@ auth.signOut();
 
 loadDashboard();
 loadProducts();
-loadOffers();
 loadOrders();
+loadOffers();
+loadCombos();
 
 async function loadDashboard(){
 
@@ -381,7 +411,7 @@ const data = doc.data();
 
 customers.add(data.phone);
 
-if(data.status == "Completed"){
+if(data.status=="Delivered"){
 completed++;
 }else{
 pending++;
@@ -397,53 +427,6 @@ completed;
 
 document.getElementById("customers").innerText =
 customers.size;
-
-}
-
-</script>
-
-<!-- CUSTOMER SEARCH -->
-
-<script>
-
-async function searchCustomer(){
-
-const phone =
-document.getElementById("searchPhone").value;
-
-const snapshot =
-await db.collection("orders")
-.where("phone","==",phone)
-.get();
-
-let totalOrders = snapshot.size;
-
-let gift =
-totalOrders >= 20
-? "🎁 Eligible For Special Gift"
-: "No Gift Yet";
-
-document.getElementById("customerResult").innerHTML = `
-
-<div class="bg-gray-100 p-5 rounded-2xl">
-
-<p class="text-xl mb-3">
-📞 Phone:
-<b>${phone}</b>
-</p>
-
-<p class="text-xl mb-3">
-🛒 Total Orders:
-<b>${totalOrders}</b>
-</p>
-
-<p class="text-xl text-green-700 font-bold">
-${gift}
-</p>
-
-</div>
-
-`;
 
 }
 
@@ -465,14 +448,12 @@ const image =
 document.getElementById("productImage").value;
 
 await db.collection("products").add({
-
-name:name,
-price:price,
-image:image
-
+name,
+price,
+image
 });
 
-alert("Product Added Successfully");
+alert("Product Added");
 
 loadProducts();
 
@@ -493,11 +474,10 @@ html += `
 
 <div class="border p-5 rounded-2xl mb-4">
 
-<img
-src="${data.image}"
+<img src="${data.image}"
 class="w-full h-52 object-cover rounded-2xl mb-4">
 
-<h3 class="text-2xl font-bold mb-3">
+<h3 class="text-2xl font-bold">
 ${data.name}
 </h3>
 
@@ -507,7 +487,7 @@ ${data.name}
 
 <button
 onclick="deleteProduct('${doc.id}')"
-class="bg-red-500 text-white px-5 py-2 rounded-xl">
+class="bg-red-600 text-white px-5 py-2 rounded-xl">
 
 Delete
 
@@ -534,6 +514,86 @@ loadProducts();
 
 </script>
 
+<!-- COMBO -->
+
+<script>
+
+async function addCombo(){
+
+await db.collection("combos").add({
+
+name:comboName.value,
+price:comboPrice.value,
+image:comboImage.value,
+items:comboItems.value
+
+});
+
+alert("Combo Added");
+
+loadCombos();
+
+}
+
+async function loadCombos(){
+
+const snapshot =
+await db.collection("combos").get();
+
+let html = "";
+
+snapshot.forEach(doc=>{
+
+const data = doc.data();
+
+html += `
+
+<div class="border p-5 rounded-2xl mb-4">
+
+<img src="${data.image}"
+class="w-full h-52 object-cover rounded-2xl mb-4">
+
+<h3 class="text-2xl font-bold">
+${data.name}
+</h3>
+
+<p class="text-xl font-bold text-green-700">
+৳ ${data.price}
+</p>
+
+<p class="my-3 whitespace-pre-line">
+${data.items}
+</p>
+
+<button
+onclick="deleteCombo('${doc.id}')"
+class="bg-red-600 text-white px-5 py-2 rounded-xl">
+
+Delete
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("comboList").innerHTML =
+html;
+
+}
+
+async function deleteCombo(id){
+
+await db.collection("combos").doc(id).delete();
+
+loadCombos();
+
+}
+
+</script>
+
 <!-- OFFERS -->
 
 <script>
@@ -544,9 +604,7 @@ const text =
 document.getElementById("offerText").value;
 
 await db.collection("offers").add({
-
-text:text
-
+text
 });
 
 alert("Offer Added");
@@ -570,13 +628,13 @@ html += `
 
 <div class="border p-5 rounded-2xl mb-4 flex justify-between">
 
-<h3 class="text-xl font-bold text-red-600">
+<h3 class="text-red-600 font-bold">
 ${data.text}
 </h3>
 
 <button
 onclick="deleteOffer('${doc.id}')"
-class="bg-red-500 text-white px-5 py-2 rounded-xl">
+class="bg-red-600 text-white px-5 py-2 rounded-xl">
 
 Delete
 
@@ -603,7 +661,7 @@ loadOffers();
 
 </script>
 
-<!-- LIVE ORDERS -->
+<!-- ORDERS -->
 
 <script>
 
@@ -622,14 +680,10 @@ const data = doc.data();
 
 html += `
 
-<div class="border p-5 rounded-2xl mb-5 bg-gray-50">
+<div class="border p-5 rounded-2xl mb-5">
 
-<div class="grid md:grid-cols-2 gap-5">
-
-<div>
-
-<p class="mb-2 text-lg">
-👤 <b>${data.name}</b>
+<p class="mb-2">
+👤 ${data.name}
 </p>
 
 <p class="mb-2">
@@ -640,48 +694,27 @@ html += `
 📍 ${data.address}
 </p>
 
-<p class="mb-2">
+<p class="mb-2 whitespace-pre-line">
 📦 ${data.product}
 </p>
 
-</div>
-
-<div>
-
-<p class="mb-3 text-lg">
-Current Status:
-<span class="font-bold text-blue-600">
+<p class="mb-4">
+Status:
+<b class="text-blue-600">
 ${data.status || "Pending"}
-</span>
+</b>
 </p>
 
 <select
 onchange="updateStatus('${doc.id}',this.value)"
-class="border-2 border-gray-300 p-3 rounded-xl w-full mb-4">
+class="border p-3 rounded-xl w-full mb-4">
 
-<option value="Pending"
-${data.status=="Pending"?"selected":""}>
-Pending
-</option>
-
-<option value="Processing"
-${data.status=="Processing"?"selected":""}>
-Processing
-</option>
-
-<option value="Delivered"
-${data.status=="Delivered"?"selected":""}>
-Delivered
-</option>
-
-<option value="Cancelled"
-${data.status=="Cancelled"?"selected":""}>
-Cancelled
-</option>
+<option value="Pending">Pending</option>
+<option value="Processing">Processing</option>
+<option value="Delivered">Delivered</option>
+<option value="Cancelled">Cancelled</option>
 
 </select>
-
-<div class="flex gap-3">
 
 <button
 onclick="deleteOrder('${doc.id}')"
@@ -690,12 +723,6 @@ class="bg-red-600 text-white px-5 py-2 rounded-xl">
 Delete
 
 </button>
-
-</div>
-
-</div>
-
-</div>
 
 </div>
 
@@ -713,9 +740,7 @@ async function updateStatus(id,status){
 await db.collection("orders")
 .doc(id)
 .update({
-
-status:status
-
+status
 });
 
 loadOrders();
